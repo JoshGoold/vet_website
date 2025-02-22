@@ -102,7 +102,7 @@ const Home = () => {
       <div className="max-h-[80%] container p-5">
         {viewState === "listProvinces" && (
           <ul className="flex flex-col gap-2">
-            {Object.keys(groupedData).map((region) => (
+            {Object.keys(groupedData).reverse().map((region) => (
               <li
                 key={region}
                 title={`View ${region}`}

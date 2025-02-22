@@ -25,7 +25,7 @@ const Form = ({ veteran, province, city, setState, groupData}) => {
     }
 
     try {
-      const response = await fetch("http://localhost:3900/select", {
+      const response = await fetch("https://veteran-api-for-kim.vercel.app/select", {
         method: "POST",
         body: JSON.stringify({
           province,

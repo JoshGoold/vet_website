@@ -1,101 +1,213 @@
-import Image from "next/image";
+"use client";
+import Form from "@/components/Form";
+import Loader from "@/components/Loader"; // Import Loader
+import { useEffect, useState } from "react";
 
-export default function Home() {
+const Home = () => {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true); // Track loading state
+  const [formState, setFormState] = useState(false);
+  const [viewState, setViewState] = useState("listProvinces");
+  const [selectedProvince, setSelectedProvince] = useState(null);
+  const [selectedCity, setSelectedCity] = useState(null);
+  const [selectedVeteran, setSelectedVeteran] = useState({});
+  const [groupedData, setGroupedData] = useState({});
+  const [searchQuery, setSearchQuery] = useState("")
+
+  const provinces = new Set([
+    "Alberta", "British Columbia", "Manitoba", "New Brunswick", "Newfoundland",
+    "Nova Scotia", "Ontario", "Prince Edward Island", "Quebec", "Saskatchewan",
+  ]);
+
+  const territories = new Set(["Northwest Territories", "Nunavut", "Yukon"]);
+
+  const handleClick = (boolean, veteran, index) => {
+    if (boolean) {
+      return alert("This Veteran has already been taken");
+    }
+    setFormState(true);
+    setSelectedVeteran({...veteran, index});
+  };
+
+  useEffect(() => {
+    const initialize = async () => {
+      try {
+        setLoading(true); // Start loading
+        const response = await fetch("http://localhost:3900/get-all-data", {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        });
+        const data = await response.json();
+        if (data.Success) {
+          setData(data.Data);
+        } else {
+          alert(data.Message);
+        }
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false); // Stop loading
+      }
+    };
+
+    initialize();
+  }, []);
+
+  useEffect(() => {
+    buildDocument();
+  }, [data]);
+
+  function buildDocument() {
+    const grouped = { Territories: {} };
+    const nonCanadian = {};
+
+    data.forEach((doc) => {
+      const parts = doc.from.split(",");
+      const city = parts.length > 1 ? parts[0].trim() : "Unknown City";
+      const region = parts[parts.length - 1].trim();
+
+      if (territories.has(region)) {
+        if (!grouped["Territories"][city]) {
+          grouped["Territories"][city] = [];
+        }
+        grouped["Territories"][city].push(doc);
+      } else if (provinces.has(region)) {
+        if (!grouped[region]) {
+          grouped[region] = {};
+        }
+        if (!grouped[region][city]) {
+          grouped[region][city] = [];
+        }
+        grouped[region][city].push(doc);
+      } else {
+        if (!nonCanadian[region]) {
+          nonCanadian[region] = {};
+        }
+        if (!nonCanadian[region][city]) {
+          nonCanadian[region][city] = [];
+        }
+        nonCanadian[region][city].push(doc);
+      }
+    });
+
+    setGroupedData(grouped);
+  }
+
+  if (loading) return <Loader />; // Show loader while fetching
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.js
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <div className="flex justify-center flex-col items-center">
+      <h1 className="text-3xl font-bold p-10">World War 2: Unknown Graves</h1>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+      <div className="max-h-[80%] container p-5">
+        {viewState === "listProvinces" && (
+          <ul className="flex flex-col gap-2">
+            {Object.keys(groupedData).map((region) => (
+              <li
+                key={region}
+                title={`View ${region}`}
+                className="bg-white text-black p-3 hover:scale-105 duration-300 rounded-md cursor-pointer"
+                onClick={() => {
+                  setSelectedProvince(region);
+                  setViewState("listCities");
+                }}
+              >
+                {region}
+              </li>
+            ))}
+          </ul>
+        )}
+
+        {viewState === "listCities" && selectedProvince && (
+          <div>
+            <button
+              onClick={() => setViewState("listProvinces")}
+              className="border border-white rounded-md p-2 hover:underline mb-3"
+            >
+              Back to Provinces
+            </button>
+            <ul className="flex flex-col gap-4">
+              {Object.keys(groupedData[selectedProvince]).map((city) => (
+                <li
+                  key={city}
+                  title={`View ${city}`}
+                  className="bg-white text-black p-3 hover:scale-105 duration-300 rounded-md cursor-pointer"
+                  onClick={() => {
+                    setSelectedCity(city);
+                    setViewState("showData");
+                  }}
+                >
+                  {city} - {groupedData[selectedProvince][city].length} People
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {formState && (
+          <Form
+            province={selectedProvince}
+            city={selectedCity}
+            veteran={selectedVeteran}
+            setState={setFormState}
+            groupData={groupedData}
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        )}
+
+{viewState === "showData" && selectedProvince && selectedCity && (
+  <div>
+    <button
+      onClick={() => setViewState("listCities")}
+      className="border border-white rounded-md p-2 hover:underline mb-3"
+    >
+      Back to Cities
+    </button>
+
+    {/* Search Input */}
+    <input
+      className="p-2 rounded-md text-black border ml-5"
+      placeholder="Search here"
+      value={searchQuery}
+      onChange={(e) => setSearchQuery(e.target.value.toLowerCase())} // Update state
+    />
+
+    {/* Filtered List */}
+    <ul className="flex flex-col gap-4">
+      {groupedData[selectedProvince][selectedCity]
+        .filter((veteran) =>
+          veteran.name.substring(0, veteran.name.length -1 ).split(",")[1]?.trim().toLowerCase().startsWith(searchQuery) // Case-insensitive filtering
+        )
+        .map((veteran, index) => (
+          <li className="bg-white text-black p-5 rounded-md" key={veteran._id}>
+            <h2 className="text-2xl font-bold underline">
+              {veteran.name.substring(0, veteran.name.length - 1).split(", ")[1]}{" "}
+              {veteran.name.substring(0, veteran.name.length - 1).split(", ")[0]}
+            </h2>
+            <p><strong>From:</strong> {veteran.from}</p>
+            <p><strong>Death:</strong> {veteran.death}</p>
+            <p><strong>Squadron:</strong> {veteran.squadron}</p>
+            <p><strong>Inscribed:</strong> {veteran.inscribed}</p>
+            <p><strong>Grave:</strong> {veteran.grave}</p>
+            <p className="max-w-[400px] py-3">
+              <strong>Description: </strong> {veteran.full_description}
+            </p>
+            <p className="font-bold underline">Select: </p>
+            <button
+              onClick={() => handleClick(veteran.taken, veteran, index)}
+              className={`text-white p-2 rounded-md ${
+                veteran.taken ? "bg-red-500 hover:bg-red-700" : "bg-green-500 hover:bg-green-700"
+              }`}
+            >
+              {veteran.taken ? "Unavailable" : "Available"}
+            </button>
+          </li>
+        ))}
+    </ul>
+  </div>
+)}
+      </div>
     </div>
   );
-}
+};
+
+export default Home;

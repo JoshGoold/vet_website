@@ -2,6 +2,20 @@
 import Form from "@/components/Form";
 import Loader from "@/components/Loader"; // Import Loader
 import { useEffect, useState } from "react";
+import Alberta from "@/assets/Flags/Alberta.png"
+import Newfoundland from "@/assets/Flags/Newfoundland.png"
+import NovaScotia from "@/assets/Flags/Nova Scotia.png"
+import Manitoba from "@/assets/Flags/Manitoba.png"
+import PEI from "@/assets/Flags/Prince Edward Island.webp"
+import Quebec from "@/assets/Flags/Quebec.png"
+import Ontario from "@/assets/Flags/Ontario.png"
+import Saskatchewan from "@/assets/Flags/Saskatchewan.png"
+import NewBrunswick from "@/assets/Flags/New Brunswick.png"
+import BritishColumbia from "@/assets/Flags/British Columbia.png"
+import Image from "next/image";
+import Canada from "@/assets/canada-flag.png"
+import poppy from "@/assets/poppy.png"
+
 
 const Home = () => {
   const [data, setData] = useState([]);
@@ -13,13 +27,53 @@ const Home = () => {
   const [selectedVeteran, setSelectedVeteran] = useState({});
   const [groupedData, setGroupedData] = useState({});
   const [searchQuery, setSearchQuery] = useState("")
+  const [values, setValues] = useState([0,10])
+
+  const handlePagination = (action, length) => {
+    switch (action) {
+      case "fwd":
+        if (values[1] + 10 <= length) {
+          setValues([values[0] + 10, values[1] + 10]);
+        }
+        break;
+      case "back":
+        if (values[0] - 10 >= 0) {
+          setValues([values[0] - 10, values[1] - 10]);
+        }
+        break;
+    }
+  };
+
+ const flags = {
+  "Prince Edward Island": PEI,
+  "Alberta": Alberta,
+  "Newfoundland": Newfoundland,
+  "Nova Scotia": NovaScotia,
+  "Manitoba": Manitoba,
+  "Quebec": Quebec,
+  "Ontario": Ontario,
+  "Saskatchewan": Saskatchewan,
+  "New Brunswick": NewBrunswick,
+  "British Columbia": BritishColumbia
+ }
+ const[totals, setTotals] = useState({
+  "Prince Edward Island": 0,
+  "Alberta": 0,
+  "Newfoundland": 0,
+  "Nova Scotia": 0,
+  "Manitoba": 0,
+  "Quebec": 0,
+  "Ontario": 0,
+  "Saskatchewan": 0,
+  "New Brunswick": 0,
+  "British Columbia": 0
+ })
 
   const provinces = new Set([
     "Alberta", "British Columbia", "Manitoba", "New Brunswick", "Newfoundland",
     "Nova Scotia", "Ontario", "Prince Edward Island", "Quebec", "Saskatchewan",
   ]);
 
-  const territories = new Set(["Northwest Territories", "Nunavut", "Yukon"]);
 
   const handleClick = (boolean, veteran, index) => {
     if (boolean) {
@@ -54,24 +108,29 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
+    window.scrollTo(0, 0); // Scroll to top whenever the viewState changes
+  }, [viewState, values]);
+
+  useEffect(() => {
     buildDocument();
   }, [data]);
 
   function buildDocument() {
-    const grouped = { Territories: {} };
+    const grouped = {};
     const nonCanadian = {};
-
+    const provinceTotals = { ...totals }; // Initialize with existing structure
+  
+    // Reset counts before recalculating
+    Object.keys(provinceTotals).forEach((province) => {
+      provinceTotals[province] = 0;
+    });
+  
     data.forEach((doc) => {
       const parts = doc.from.split(",");
       const city = parts.length > 1 ? parts[0].trim() : "Unknown City";
       const region = parts[parts.length - 1].trim();
-
-      if (territories.has(region)) {
-        if (!grouped["Territories"][city]) {
-          grouped["Territories"][city] = [];
-        }
-        grouped["Territories"][city].push(doc);
-      } else if (provinces.has(region)) {
+  
+      if (provinces.has(region)) {
         if (!grouped[region]) {
           grouped[region] = {};
         }
@@ -79,6 +138,9 @@ const Home = () => {
           grouped[region][city] = [];
         }
         grouped[region][city].push(doc);
+  
+        // Update total count for the province
+        provinceTotals[region] += 1;
       } else {
         if (!nonCanadian[region]) {
           nonCanadian[region] = {};
@@ -89,16 +151,23 @@ const Home = () => {
         nonCanadian[region][city].push(doc);
       }
     });
-
+  
     setGroupedData(grouped);
+    setTotals(provinceTotals); // Update totals state
   }
 
   if (loading) return <Loader />; // Show loader while fetching
 
   return (
-    <div className="flex justify-center flex-col items-center">
-      <h1 className="text-3xl font-bold p-10">World War 2: Unknown Graves</h1>
-
+    <div id="top" className="flex justify-center flex-col items-center">
+      <div className="flex justify-between container  flex-row-reverse p-5">
+        <Image className="rounded-md" height={100} alt="canada flag" src={Canada}/>
+      <h1 className="text-3xl font-bold py-10">World War 2: Unknown Graves</h1>
+      </div>
+    <div className="flex gap-8">
+      <button className="hover:underline">Manual Search</button>
+      <button className="hover:underline">Map Search</button>
+    </div>
       <div className="max-h-[80%] container p-5">
         {viewState === "listProvinces" && (
           <ul className="flex flex-col gap-2">
@@ -106,43 +175,71 @@ const Home = () => {
               <li
                 key={region}
                 title={`View ${region}`}
-                className="bg-white text-black p-3 hover:scale-105 duration-300 rounded-md cursor-pointer"
+                className="bg-white  font-bold relative text-black p-3 hover:scale-105 duration-300 rounded-md cursor-pointer"
                 onClick={() => {
                   setSelectedProvince(region);
                   setViewState("listCities");
                 }}
               >
-                {region}
+                <div className="flex justify-between">
+                <span>{region}</span>
+                <span className="flex items-center gap-5 flex-row-reverse"><b className={`${totals[region]< 100 && "bg-yellow-500"} ${totals[region] > 100 && totals[region] < 200  && "bg-orange-500"} ${totals[region] > 200 && totals[region] < 400  && "bg-orange-700"} ${totals[region] > 400 && totals[region] < 800  && "bg-red-500"} ${totals[region] > 800 && "bg-red-700"} p-2 text-white rounded-full `}>{totals[region]|| 0}</b>  Unknown Graves</span>
+                </div>
+                <div className="">
+                  <Image src={flags[region]} height={50} width={75} alt="flag"/>
+                </div>
               </li>
             ))}
           </ul>
         )}
 
-        {viewState === "listCities" && selectedProvince && (
-          <div>
-            <button
-              onClick={() => setViewState("listProvinces")}
-              className="border border-white rounded-md p-2 hover:underline mb-3"
-            >
-              Back to Provinces
-            </button>
-            <ul className="flex flex-col gap-4">
-              {Object.keys(groupedData[selectedProvince]).map((city) => (
-                <li
-                  key={city}
-                  title={`View ${city}`}
-                  className="bg-white text-black p-3 hover:scale-105 duration-300 rounded-md cursor-pointer"
-                  onClick={() => {
-                    setSelectedCity(city);
-                    setViewState("showData");
-                  }}
-                >
-                  {city} - {groupedData[selectedProvince][city].length} People
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
+{viewState === "listCities" && selectedProvince && (
+  <div>
+    <Image alt="flag" height={200} src={selectedProvince && viewState !== "listProvinces" ? flags[selectedProvince] : null }/>
+    <h2 className="text-2xl py-2">{selectedProvince&& viewState !== "listProvinces" ? `${selectedProvince} - ${totals[selectedProvince]} Unknown Graves` : ""}</h2>
+    <div className="flex justify-between mb-10">
+    <button
+      onClick={() => {
+        setViewState("listProvinces")
+        setSearchQuery("")
+      }}
+      className="border border-white rounded-md p-2 hover:underline mb-3"
+    >
+      Back to Provinces
+    </button>
+     
+    {/* Search Input for Cities */}
+    <input
+      className="p-2 rounded-md text-black border mb-3"
+      placeholder="Search cities"
+      value={searchQuery}
+      onChange={(e) => setSearchQuery(e.target.value.toLowerCase())}
+    />
+</div>
+
+    <ul className="flex flex-col gap-4">
+      {Object.keys(groupedData[selectedProvince])
+        .filter((city) => city.toLowerCase().includes(searchQuery))
+        
+        .map((city) => (
+          <li
+            key={city}
+            title={`View ${city}`}
+            className="bg-white text-black p-3 hover:scale-105 duration-300 rounded-md cursor-pointer"
+            onClick={() => {
+              setSelectedCity(city);
+              setSearchQuery("")
+              setViewState("showData");
+            }}
+          >
+            {city} - {groupedData[selectedProvince][city].length} People
+          </li>
+        ))}
+        
+    </ul>
+  </div>
+)}
+
 
         {formState && (
           <Form
@@ -156,8 +253,13 @@ const Home = () => {
 
 {viewState === "showData" && selectedProvince && selectedCity && (
   <div>
+    <h2 className="text-2xl py-5">{selectedProvince} | {selectedCity} | Total - {groupedData[selectedProvince][selectedCity].length}</h2>
+    <div className="flex justify-between mb-10">
     <button
-      onClick={() => setViewState("listCities")}
+      onClick={() => {
+        setViewState("listCities")
+        setSearchQuery("")
+      }}
       className="border border-white rounded-md p-2 hover:underline mb-3"
     >
       Back to Cities
@@ -166,17 +268,18 @@ const Home = () => {
     {/* Search Input */}
     <input
       className="p-2 rounded-md text-black border ml-5"
-      placeholder="Search here"
+      placeholder="Search by name"
       value={searchQuery}
       onChange={(e) => setSearchQuery(e.target.value.toLowerCase())} // Update state
     />
-
+</div>
     {/* Filtered List */}
     <ul className="flex flex-col gap-4">
       {groupedData[selectedProvince][selectedCity]
         .filter((veteran) =>
           veteran.name.substring(0, veteran.name.length -1 ).split(",")[1]?.trim().toLowerCase().startsWith(searchQuery) // Case-insensitive filtering
         )
+        .slice(values[0], values[1])
         .map((veteran, index) => (
           <li className="bg-white text-black p-5 rounded-md" key={veteran._id}>
             <h2 className="text-2xl font-bold underline">
@@ -202,6 +305,10 @@ const Home = () => {
             </button>
           </li>
         ))}
+        <li className="flex gap-3 justify-center items-center">
+          <button className="text-3xl bg-white text-black p-3 rounded-md" onClick={()=> handlePagination("back", groupedData[selectedProvince][selectedCity].length)}>{"<"}</button>
+          <button className="text-3xl bg-white text-black p-3 rounded-md" onClick={()=> handlePagination("fwd", groupedData[selectedProvince][selectedCity].length)}>{">"}</button>
+        </li>
     </ul>
   </div>
 )}

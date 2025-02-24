@@ -27,22 +27,22 @@ const Home = () => {
   const [selectedVeteran, setSelectedVeteran] = useState({});
   const [groupedData, setGroupedData] = useState({});
   const [searchQuery, setSearchQuery] = useState("")
-  const [values, setValues] = useState([0,10])
+  // const [values, setValues] = useState([0,10])
 
-  const handlePagination = (action, length) => {
-    switch (action) {
-      case "fwd":
-        if (values[1] + 10 <= length) {
-          setValues([values[0] + 10, values[1] + 10]);
-        }
-        break;
-      case "back":
-        if (values[0] - 10 >= 0) {
-          setValues([values[0] - 10, values[1] - 10]);
-        }
-        break;
-    }
-  };
+  // const handlePagination = (action, length) => {
+  //   switch (action) {
+  //     case "fwd":
+  //       if (values[1] + 10 <= length) {
+  //         setValues([values[0] + 10, values[1] + 10]);
+  //       }
+  //       break;
+  //     case "back":
+  //       if (values[0] - 10 >= 0) {
+  //         setValues([values[0] - 10, values[1] - 10]);
+  //       }
+  //       break;
+  //   }
+  // };
 
  const flags = {
   "Prince Edward Island": PEI,
@@ -109,7 +109,7 @@ const Home = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0); // Scroll to top whenever the viewState changes
-  }, [viewState, values]);
+  }, [viewState]);
 
   useEffect(() => {
     buildDocument();
@@ -279,7 +279,6 @@ const Home = () => {
         .filter((veteran) =>
           veteran.name.substring(0, veteran.name.length -1 ).split(",")[1]?.trim().toLowerCase().startsWith(searchQuery) // Case-insensitive filtering
         )
-        .slice(values[0], values[1])
         .map((veteran, index) => (
           <li className="bg-white text-black p-5 rounded-md" key={veteran._id}>
             <h2 className="text-2xl font-bold underline">
@@ -305,10 +304,10 @@ const Home = () => {
             </button>
           </li>
         ))}
-        <li className="flex gap-3 justify-center items-center">
+        {/* <li className="flex gap-3 justify-center items-center">
           <button className="text-3xl bg-white text-black p-3 rounded-md" onClick={()=> handlePagination("back", groupedData[selectedProvince][selectedCity].length)}>{"<"}</button>
           <button className="text-3xl bg-white text-black p-3 rounded-md" onClick={()=> handlePagination("fwd", groupedData[selectedProvince][selectedCity].length)}>{">"}</button>
-        </li>
+        </li> */}
     </ul>
   </div>
 )}

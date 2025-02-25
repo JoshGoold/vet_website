@@ -27,6 +27,7 @@ const Home = () => {
   const [selectedVeteran, setSelectedVeteran] = useState({});
   const [groupedData, setGroupedData] = useState({});
   const [searchQuery, setSearchQuery] = useState("")
+  const MIA = 1888;
   // const [values, setValues] = useState([0,10])
 
   // const handlePagination = (action, length) => {
@@ -160,14 +161,25 @@ const Home = () => {
 
   return (
     <div id="top" className="flex justify-center flex-col items-center">
-      <div className="flex justify-between container  flex-row-reverse p-5">
-        <Image className="rounded-md" height={100} alt="canada flag" src={Canada}/>
-      <h1 className="text-3xl font-bold py-10">World War 2: Unknown Graves</h1>
+      <div className="flex justify-between container items-center  lg:flex-row-reverse flex-col p-5">
+        <Image className="w-[100px] h-[60px]"  alt="canada flag" src={Canada}/>
+      <h1 className="text-3xl font-bold lg:py-10 py-5">World War 2: Unknown Graves</h1>
+      </div>
+      {viewState === "listProvinces" &&
+      <>
+      <h2 className="py-3 flex text-center items-center gap-3 "><b className="underline">Total Missing In Action:</b>  <b className="bg-red-500  p-2 text-3xl">{MIA}</b></h2>
+      <div className="container p-5">
+        
+        <h1 className="text-2xl font-semibold py-3">Why it's important</h1>
+        
+      <p>Researching World War II Canadian aircrew who have no known graves is crucial for preserving their legacy, honoring their sacrifice, and providing closure to families who never received definitive answers about their loved ones. These airmen played a vital role in the war effort, often undertaking dangerous missions over enemy territory or vast oceans, where many were lost without a trace. By uncovering details about their service, final missions, and commemorations, we ensure that their bravery is not forgotten. This research also contributes to historical records, aiding scholars, genealogists, and military historians in understanding the broader impact of Canada's air force during the war. Furthermore, advancements in technology, such as archival digitization and forensic identification, offer hope that some missing aircrew may one day be properly identified and memorialized.</p>
       </div>
     <div className="flex gap-8">
-      <button className="hover:underline">Manual Search</button>
+      <button className="underline">Manual Search</button>
       <button className="hover:underline">Map Search</button>
     </div>
+    </>
+    }
       <div className="max-h-[80%] container p-5">
         {viewState === "listProvinces" && (
           <ul className="flex flex-col gap-2">
@@ -253,6 +265,7 @@ const Home = () => {
 
 {viewState === "showData" && selectedProvince && selectedCity && (
   <div>
+    <Image alt="flag" height={200} src={selectedProvince && viewState !== "listProvinces" ? flags[selectedProvince] : null }/>
     <h2 className="text-2xl py-5">{selectedProvince} | {selectedCity} | Total - {groupedData[selectedProvince][selectedCity].length}</h2>
     <div className="flex justify-between mb-10">
     <button
@@ -293,14 +306,13 @@ const Home = () => {
             <p className="max-w-[400px] py-3">
               <strong>Description: </strong> {veteran.full_description}
             </p>
-            <p className="font-bold underline">Select: </p>
             <button
               onClick={() => handleClick(veteran.taken, veteran, index)}
               className={`text-white p-2 rounded-md ${
                 veteran.taken ? "bg-red-500 hover:bg-red-700" : "bg-green-500 hover:bg-green-700"
               }`}
             >
-              {veteran.taken ? "Unavailable" : "Available"}
+              {veteran.taken ? "Unavailable" : "Select"}
             </button>
           </li>
         ))}

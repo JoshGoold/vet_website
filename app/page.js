@@ -126,8 +126,11 @@ const Home = () => {
   }, []); // Empty dependency array runs it only once
 
   useEffect(() => {
-    window.scrollTo(0, 0); // Scroll to top whenever the viewState changes
+    if (typeof window !== "undefined") { // Ensure we are on the client-side
+      window.scrollTo(0, 0); // Scroll to top whenever the viewState changes
+    }
   }, [viewState]);
+  
 
   useEffect(() => {
     buildDocument();

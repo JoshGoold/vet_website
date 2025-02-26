@@ -15,6 +15,7 @@ import BritishColumbia from "@/assets/Flags/British Columbia.png"
 import Image from "next/image";
 import Canada from "@/assets/canada-flag.png"
 import poppy from "@/assets/poppy.png"
+import MapComponent from "./portal/_components/Map";
 
 
 const Home = () => {
@@ -26,7 +27,9 @@ const Home = () => {
   const [selectedCity, setSelectedCity] = useState(null);
   const [selectedVeteran, setSelectedVeteran] = useState({});
   const [groupedData, setGroupedData] = useState({});
+  const [geoData, setGeoData] = useState([])
   const [searchQuery, setSearchQuery] = useState("")
+  const [searchOption, setSearchOption] = useState("manual")
   const MIA = 1888;
   // const [values, setValues] = useState([0,10])
 
@@ -109,6 +112,20 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
+    const handleLocationData = async () => {
+      try {
+        const response = await fetch("/coords.geojson"); // Fetch from public folder
+        const data = await response.json();
+        setGeoData(data); // Store data in state
+      } catch (error) {
+        console.error("Error fetching GeoJSON:", error);
+      }
+    };
+
+    handleLocationData(); // Call the function inside useEffect
+  }, []); // Empty dependency array runs it only once
+
+  useEffect(() => {
     window.scrollTo(0, 0); // Scroll to top whenever the viewState changes
   }, [viewState]);
 
@@ -164,7 +181,14 @@ const Home = () => {
       <div className="flex justify-between container items-center  lg:flex-row-reverse flex-col p-5">
         <Image className="w-[100px] h-[60px]"  alt="canada flag" src={Canada}/>
       <h1 className="text-3xl font-bold lg:py-10 py-5">World War 2: Unknown Graves</h1>
+      
       </div>
+      <div className="flex  gap-8">
+      <button onClick={()=> setSearchOption("manual")} className="underline">Manual Search</button>
+      <button onClick={()=> {
+        setSearchOption("map")
+        setViewState("")}} className="hover:underline">Map Search</button>
+    </div>
       {viewState === "listProvinces" &&
       <>
       <h2 className="py-3 flex text-center items-center gap-3 "><b className="underline">Total Missing In Action:</b>  <b className="bg-red-500  p-2 text-3xl">{MIA}</b></h2>
@@ -174,12 +198,10 @@ const Home = () => {
         
       <p>Researching World War II Canadian aircrew who have no known graves is crucial for preserving their legacy, honoring their sacrifice, and providing closure to families who never received definitive answers about their loved ones. These airmen played a vital role in the war effort, often undertaking dangerous missions over enemy territory or vast oceans, where many were lost without a trace. By uncovering details about their service, final missions, and commemorations, we ensure that their bravery is not forgotten. This research also contributes to historical records, aiding scholars, genealogists, and military historians in understanding the broader impact of Canada's air force during the war. Furthermore, advancements in technology, such as archival digitization and forensic identification, offer hope that some missing aircrew may one day be properly identified and memorialized.</p>
       </div>
-    <div className="flex gap-8">
-      <button className="underline">Manual Search</button>
-      <button className="hover:underline">Map Search</button>
-    </div>
+    
     </>
     }
+    {searchOption === "manual" && (
       <div className="max-h-[80%] container p-5">
         {viewState === "listProvinces" && (
           <ul className="flex flex-col gap-2">
@@ -323,7 +345,12 @@ const Home = () => {
     </ul>
   </div>
 )}
-      </div>
+      </div>)}
+      {searchOption === "map" && (
+        <div className="container py-10">
+        <MapComponent geoJsonData={geoData} setSelectedProvince={setSelectedProvince} setSelectedCity={setSelectedCity} setViewState={setViewState} setSearchOption={setSearchOption}/>
+        </div>
+      )}
     </div>
   );
 };

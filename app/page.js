@@ -125,11 +125,18 @@ const Home = () => {
     handleLocationData(); // Call the function inside useEffect
   }, []); // Empty dependency array runs it only once
 
+  const [isClient, setIsClient] = useState(false);
+
   useEffect(() => {
-    if (typeof window !== "undefined") { // Ensure we are on the client-side
+    // Ensure code runs only on the client
+    setIsClient(true);
+  }, []);
+
+  useEffect(() => {
+    if (isClient) {
       window.scrollTo(0, 0); // Scroll to top whenever the viewState changes
     }
-  }, [viewState]);
+  }, [viewState, isClient]);
   
 
   useEffect(() => {

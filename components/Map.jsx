@@ -5,15 +5,9 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
 const MapComponent = ({ geoJsonData, setSelectedProvince, setSelectedCity, setViewState, setSearchOption }) => {
-  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    setIsClient(true); // Set to true when client-side rendering is ready
-  }, []);
-
-  useEffect(() => {
-    if (!isClient || !geoJsonData || !geoJsonData.features) return; 
-    if (!geoJsonData || !geoJsonData.features) return; // Ensure data is available
+    if ( !geoJsonData || !geoJsonData.features) return; 
 
     // Initialize Map
     const map = L.map("map", {

@@ -15,7 +15,7 @@ import BritishColumbia from "@/assets/Flags/British Columbia.png"
 import Image from "next/image";
 import Canada from "@/assets/canada-flag.png"
 import poppy from "@/assets/poppy.png"
-import MapComponent from "./portal/_components/Map";
+import MapComponent from "../components/Map";
 
 
 const Home = () => {

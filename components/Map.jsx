@@ -6,6 +6,7 @@ import "leaflet/dist/leaflet.css";
 
 const MapComponent = ({ geoJsonData, setSelectedProvince, setSelectedCity, setViewState, setSearchOption }) => {
   useEffect(() => {
+    if (typeof window === 'undefined') return;
     if (!geoJsonData || !geoJsonData.features) return; // Ensure data is available
 
     // Initialize Map

@@ -190,11 +190,13 @@ const Home = () => {
     <div id="top" className="flex justify-center flex-col items-center">
       <div className="flex justify-between container items-center  lg:flex-row-reverse flex-col p-5">
         <Image className="w-[100px] h-[60px]"  alt="canada flag" src={Canada}/>
-      <h1 className="text-3xl font-bold lg:py-10 py-5">World War 2: Unknown Graves</h1>
+      <h1 className="text-3xl font-bold lg:py-10 py-5">World War II Canadian M.I.A. Aircrew Database</h1>
       
       </div>
       <div className="flex  gap-8">
-      <button onClick={()=> setSearchOption("manual")} className="underline">Manual Search</button>
+      <button onClick={()=> {setSearchOption("manual")
+        setViewState("listProvinces")
+      }} className="underline">Manual Search</button>
       <button onClick={()=> {
         setSearchOption("map")
         setViewState("")}} className="hover:underline">Map Search</button>
@@ -215,7 +217,7 @@ const Home = () => {
       <div className="max-h-[80%] container p-5">
         {viewState === "listProvinces" && (
           <ul className="flex flex-col gap-2">
-            {Object.keys(groupedData).reverse().map((region) => (
+            {Object.keys(groupedData).sort().map((region) => (
               <li
                 key={region}
                 title={`View ${region}`}
@@ -264,7 +266,7 @@ const Home = () => {
     <ul className="flex flex-col gap-4">
       {Object.keys(groupedData[selectedProvince])
         .filter((city) => city.toLowerCase().includes(searchQuery))
-        
+        .sort()
         .map((city) => (
           <li
             key={city}

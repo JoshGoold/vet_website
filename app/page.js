@@ -137,10 +137,12 @@ const Home = () => {
 
   useEffect(() => {
     let sum = 0;
-    for (let [key, value] of totals) {
+    
+    for (let [key, value] of Object.entries(totals)) {
       sum += value;
     }
-    setTotalMia(sum); 
+  
+    setTotalMia(sum);
   }, [totals]);
 
   useEffect(() => {

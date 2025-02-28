@@ -137,7 +137,7 @@ const Home = () => {
 
   useEffect(()=> {
 
-    for(t in totals){
+    for(let t in totals){
       setTotalMia(prev => prev += t)
     }
 

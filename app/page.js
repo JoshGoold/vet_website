@@ -30,6 +30,7 @@ const Home = () => {
   const [geoData, setGeoData] = useState([])
   const [searchQuery, setSearchQuery] = useState("")
   const [searchOption, setSearchOption] = useState("manual")
+  const [totalMia, setTotalMia] = useState(0)
   const MIA = 1888;
   // const [values, setValues] = useState([0,10])
 
@@ -130,7 +131,17 @@ const Home = () => {
   useEffect(() => {
     // Ensure code runs only on the client
     setIsClient(true);
+
+
   }, []);
+
+  useEffect(()=> {
+
+    for(t in totals){
+      setTotalMia(prev => prev += t)
+    }
+
+  },[totals])
 
   useEffect(() => {
     if (isClient) {
@@ -203,7 +214,7 @@ const Home = () => {
     </div>
       {viewState === "listProvinces" &&
       <>
-      <h2 className="py-3 flex text-center items-center gap-3 "><b className="underline">Total Missing In Action:</b>  <b className="bg-red-500  p-2 text-3xl">{MIA}</b></h2>
+      <h2 className="py-3 flex text-center items-center gap-3 "><b className="underline">Total Missing In Action:</b>  <b className="bg-red-500  p-2 text-3xl">{totalMia || <Loader/>}</b></h2>
       <div className="container p-5">
         
         <h1 className="text-2xl font-semibold py-3">Why it's important</h1>

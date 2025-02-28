@@ -135,13 +135,13 @@ const Home = () => {
 
   }, []);
 
-  useEffect(()=> {
-
-    for(let [key, value] of totals){
-      setTotalMia(prev => prev += value)
+  useEffect(() => {
+    let sum = 0;
+    for (let [key, value] of totals) {
+      sum += value;
     }
-
-  },[totals])
+    setTotalMia(sum); 
+  }, [totals]);
 
   useEffect(() => {
     if (isClient) {

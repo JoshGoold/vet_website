@@ -15,6 +15,7 @@ import BritishColumbia from "@/assets/Flags/British Columbia.png"
 import Image from "next/image";
 import Canada from "@/assets/canada-flag.png"
 import poppy from "@/assets/poppy.png"
+import Link from "next/link";
 
 
 const Home = () => {
@@ -92,36 +93,44 @@ const Home = () => {
     const initialize = async () => {
       try {
         setLoading(true); // Start loading
+  
+        // Fetch all data
         const response = await fetch("https://veteran-api-for-kim.vercel.app/get-all-data", {
           method: "GET",
           headers: { "Content-Type": "application/json" },
         });
+  
         const data = await response.json();
+  
         if (data.Success) {
           setData(data.Data);
-          const response = await fetch("https://veteram-api-for-kim.vercel.app/get-all-selected", {
+  
+          // Fetch selected vets
+          const selectedResponse = await fetch("https://veteran-api-for-kim.vercel.app/get-all-selected", {
             method: "GET",
             headers: { "Content-Type": "application/json" },
-          })
-          const info = await response.json()
-          if(info.Success){
-            setSelectedVets(info.Data)
-          } else{
-            alert(data.Message)
+          });
+  
+          const info = await selectedResponse.json();
+  
+          if (info.Success) {
+            setSelectedVets(info.Data);
+          } else {
+            alert(info.Message); // Corrected alert message
           }
         } else {
           alert(data.Message);
         }
       } catch (error) {
-        console.error(error);
+        console.error("Error fetching data:", error);
       } finally {
         setLoading(false); // Stop loading
       }
     };
-   
-
+  
     initialize();
   }, []);
+  
 
   useEffect(() => {
     const handleLocationData = async () => {
@@ -220,7 +229,15 @@ const Home = () => {
       <>
       <div className="flex justify-around gap-10">
       <h2 className="py-3 flex text-center items-center gap-3 "><b className="">Total Missing In Action:</b>  <b className="bg-red-500  p-2 text-3xl">{totalMia || <Loader/>}</b></h2>
-      <h2 className="py-3 flex text-center items-center gap-3 "><b className="">Total Currently being Researched:</b>  <b className="bg-green-500  p-2 text-3xl">{selectedVets.length || <Loader/>}</b></h2>
+      <h2 className="relative">
+        <span className="py-3 flex  text-center items-center gap-3 ">
+        <b className="">Total Currently being Researched:</b>  
+        <b className="bg-green-500 px-4  p-2 text-3xl">{selectedVets.length || 0}</b>
+        </span>
+        <span className="absolute bottom-0 italic hover:underline">
+        <Link title="Click to view" href={"/selected"}>View Here</Link>
+        </span>
+        </h2>
       </div>
       <div className="container p-5">
         

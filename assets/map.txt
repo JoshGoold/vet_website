@@ -132,3 +132,10 @@ const LeafletMap = ({
 };
 
 export default LeafletMap;
+
+
+{searchOption === "map" && (
+        <div className="container py-10">
+        <MapComponent geoJsonData={geoData} setSelectedProvince={setSelectedProvince} setSelectedCity={setSelectedCity} setViewState={setViewState} setSearchOption={setSearchOption}/>
+        </div>
+      )}

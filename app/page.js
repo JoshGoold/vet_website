@@ -23,6 +23,7 @@ const Home = () => {
   const [formState, setFormState] = useState(false);
   const [viewState, setViewState] = useState("listProvinces");
   const [selectedProvince, setSelectedProvince] = useState(null);
+  const [selectedVets, setSelectedVets] = useState([])
   const [selectedCity, setSelectedCity] = useState(null);
   const [selectedVeteran, setSelectedVeteran] = useState({});
   const [groupedData, setGroupedData] = useState({});
@@ -98,6 +99,16 @@ const Home = () => {
         const data = await response.json();
         if (data.Success) {
           setData(data.Data);
+          const response = await fetch("https://veteram-api-for-kim.vercel.app/get-all-selected", {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+          })
+          const info = await response.json()
+          if(info.Success){
+            setSelectedVets(info.Data)
+          } else{
+            alert(data.Message)
+          }
         } else {
           alert(data.Message);
         }
@@ -107,6 +118,7 @@ const Home = () => {
         setLoading(false); // Stop loading
       }
     };
+   
 
     initialize();
   }, []);
@@ -206,7 +218,10 @@ const Home = () => {
       </div>
       {viewState === "listProvinces" &&
       <>
-      <h2 className="py-3 flex text-center items-center gap-3 "><b className="underline">Total Missing In Action:</b>  <b className="bg-red-500  p-2 text-3xl">{totalMia || <Loader/>}</b></h2>
+      <div className="flex justify-around gap-10">
+      <h2 className="py-3 flex text-center items-center gap-3 "><b className="">Total Missing In Action:</b>  <b className="bg-red-500  p-2 text-3xl">{totalMia || <Loader/>}</b></h2>
+      <h2 className="py-3 flex text-center items-center gap-3 "><b className="">Total Currently being Researched:</b>  <b className="bg-green-500  p-2 text-3xl">{selectedVets.length || <Loader/>}</b></h2>
+      </div>
       <div className="container p-5">
         
         <h1 className="text-2xl font-semibold py-3">Why it's important</h1>

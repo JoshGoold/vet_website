@@ -19,7 +19,7 @@ const page = () => {
               </ul>
             </li>
             <li>
-              <h3 className="font-bold text-lg">Kim Bergeron</h3>
+              <h3 className="font-bold text-lg">Dr. Kim Bergeron</h3>
               <ul className="list-disc pl-5 space-y-1">
                 <li>Social Scientist and researcher</li>
                 <li>Validated data and did research stuff</li>

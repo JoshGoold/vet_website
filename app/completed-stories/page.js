@@ -50,14 +50,16 @@ const CompletedStories = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-gray-100 p-6">
-      <div className="max-w-4xl mx-auto">
+    <div className="min-h-screen bg-gray-900 text-gray-100 flex items-center justify-center p-6">
+      <div className="max-w-4xl mx-auto w-full">
         <h1 className="text-3xl font-bold text-blue-400 mb-6 text-center">Completed Stories</h1>
 
         {loading ? (
-          <Loader/>
+          <div className="flex justify-center">
+            <Loader />
+          </div>
         ) : error ? (
-          <p className="text-center text-red-400">{error}</p>
+          <p className="text-center text-red-400 text-lg">{error}</p>
         ) : stories.length === 0 ? (
           <p className="text-center text-gray-400 text-lg">No stories have been completed yet.</p>
         ) : (

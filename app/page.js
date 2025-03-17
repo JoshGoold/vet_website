@@ -41,7 +41,7 @@ const Home = () => {
               <h3 className="font-bold text-lg">4. Submit</h3>
               <ul className="list-disc pl-5 space-y-1">
                 <li>
-                  <Link className="underline italic text-blue-300 hover:text-blue-500" href="">
+                  <Link className="underline italic text-blue-300 hover:text-blue-500" href="/submit">
                     Click here to submit
                   </Link>
                 </li>

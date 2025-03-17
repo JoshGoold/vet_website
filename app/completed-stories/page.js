@@ -22,7 +22,7 @@ const CompletedStories = () => {
         }
         setStories(data.stories);
       } catch (err) {
-        setError(err.message);
+        console.error(error)
       } finally {
         setLoading(false);
       }
@@ -61,8 +61,6 @@ const CompletedStories = () => {
           <div className="flex justify-center">
             <Loader />
           </div>
-        ) : error ? (
-          <p className="text-center text-red-400 text-lg">{error}</p>
         ) : stories.length === 0 ? (
           <p className="text-center text-gray-400 text-lg">No stories have been completed yet.</p>
         ) : (

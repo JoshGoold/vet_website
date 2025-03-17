@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 
-const Portal = () => {
+// Main Portal component
+const PortalContent = () => {
   const searchParams = useSearchParams(); // Get query parameters
   const router = useRouter(); // For navigation
   const [isValid, setIsValid] = useState(false); // Track validation state
@@ -17,19 +18,27 @@ const Portal = () => {
       setIsValid(true);
     } else {
       // Codes don’t match or are missing, redirect away
-      router.push("/"); // Redirect to homepage (or wherever you want)
+      router.push("/"); // Redirect to homepage
     }
   }, [searchParams, router]); // Re-run if searchParams or router changes
 
-  // Only render content if the code is valid
   if (!isValid) {
     return null; // Or a loading spinner/message while redirecting
   }
 
   return (
-    <div className="text-center text-4xl text-white">
-      Hello
+    <div className="min-h-screen bg-gray-900 flex items-center justify-center p-6">
+      <div className="text-center text-4xl text-white">Hello</div>
     </div>
+  );
+};
+
+// Wrapper component with Suspense
+const Portal = () => {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-gray-900 flex items-center justify-center text-gray-400">Loading...</div>}>
+      <PortalContent />
+    </Suspense>
   );
 };
 

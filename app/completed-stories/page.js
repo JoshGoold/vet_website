@@ -17,7 +17,10 @@ const CompletedStories = () => {
           throw new Error("Failed to fetch stories");
         }
         const data = await response.json();
-        setStories(data);
+        if(!data.Success){
+            return;
+        }
+        setStories(data.stories);
       } catch (err) {
         setError(err.message);
       } finally {

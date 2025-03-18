@@ -39,6 +39,12 @@ export default function Nav() {
         Lesson Plans
       </Link>
       <Link
+        className={`hover:text-blue-400 ${pathname === "/research-guide" ? "underline" : "hover:underline"}`}
+        href="/research-guide"
+      >
+        Research Guide
+      </Link>
+      <Link
         className={`hover:text-blue-400 ${pathname === "/about-us" ? "underline" : "hover:underline"}`}
         href="/about-us"
       >

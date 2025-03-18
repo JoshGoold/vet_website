@@ -2,12 +2,14 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import Loader from "@/components/Loader";
 
 export default function Admin() {
   const router = useRouter();
   const [formData, setFormData] = useState({ email: "", password: "", code: "" });
   const [twoFactor, setTwoFactor] = useState(false);
   const [correctCode, setCorrectCode] = useState("");
+  const [loading, setLoading] = useState(false)
 
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -27,6 +29,7 @@ export default function Admin() {
   };
 
   const handleAuthentication = async (e) => {
+    setLoading(true)
     e.preventDefault();
     try {
       if (!formData.email || formData.password.length < 6) {
@@ -57,8 +60,12 @@ export default function Admin() {
       }
     } catch (error) {
       console.error("Error occurred while authenticating: ", error);
+    } finally{
+      setLoading(false)
     }
   };
+
+  if(loading) return <Loader/>
 
   return (
     <section className="min-h-screen bg-gray-900 text-gray-100 flex items-center justify-center p-4">

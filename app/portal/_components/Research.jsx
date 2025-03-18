@@ -5,7 +5,7 @@ import Image from "next/image"
 import Canada from "@/assets/canada-flag.png"
 import Link from "next/link"
 
-const selected = () => {
+const Research = () => {
     const [selections, setSelected] = useState([])
     const [loading, setLoading] = useState(true)
 
@@ -36,13 +36,6 @@ const selected = () => {
 
   return (
     <div>
-      <div id="top" className="flex justify-center flex-col items-center">
-      <div className="flex justify-between container items-center  lg:flex-row-reverse flex-col p-5">
-        <Image className="w-[100px] h-[60px]"  alt="canada flag" src={Canada}/>
-      <h1 className="text-3xl font-bold lg:py-10 py-5">World War II Canadian M.I.A. Aircrew Database</h1>
-      </div>
-      <Link className="hover:underline p-2 bg-blue-500" href={"/"}>Go Back</Link>
-        </div>
         <div className="p-5 container ml-auto mr-auto">
             {selections.length > 0 && (
                 <div>
@@ -62,11 +55,11 @@ const selected = () => {
                 </div>
             )}
             {selections.length === 0 && (
-                <h1 className="text-center flex flex-col justify-center items-center">Nobody has been selected for research yet. <br/><Link className="hover:underline p-2 bg-blue-500" href={"/"}>Go Back</Link></h1>
+                <h1 className="text-center flex flex-col justify-center items-center">Nobody has been selected for research yet. <br/></h1>
             )}
         </div>
     </div>
   )
 }
 
-export default selected
+export default Research

@@ -43,7 +43,7 @@ const PortalContent = () => {
     }
   }, [searchParams, router]);
 
-  useEffect(() => {
+  /*useEffect(() => {
     const initialize = async () => {
       try {
         setLoading(true);
@@ -76,7 +76,7 @@ const PortalContent = () => {
       }
     };
     initialize();
-  }, []);
+  }, []);*/
 
   const provinces = new Set([
     "Alberta", "British Columbia", "Manitoba", "New Brunswick", "Newfoundland",

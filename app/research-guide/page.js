@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import img from "../../assets/pen-paper.webp";
+import canada_flag from "../../assets/canada-flag.png";
 
 const Home = () => {
   return (
@@ -430,7 +431,9 @@ const Home = () => {
                   .
                 </li>
               </ul>
-              <h3 className="text-xl font-bold p-2 text-gray-700">Additional Resources</h3>
+              <h3 className="text-xl font-bold p-2 text-gray-700">
+                Additional Resources
+              </h3>
               <ul className="list-disc px-6 py-2">
                 <li className="text-black p-2">
                   <b>Social media:</b> Search for and join relevant social media
@@ -440,16 +443,174 @@ const Home = () => {
                 </li>
                 <li className="text-black p-2">
                   <b>Websites:</b> There are dedicated websites to this topic
-                  that may be helpful, such as <Link  className="text-blue-500 underline cursor-pointer hover:text-blue-600 transition-300" href={"https://caspir.warplane.com/"}>CASPIR: Canadian Aircraft Serials
-                  Personnel Information Resource (Canadian Warplane Heritage
-                  Museum)</Link>, <Link  className="text-blue-500 underline cursor-pointer hover:text-blue-600 transition-300" href={"https://www.bombercommandmuseumarchives.ca/index.html"}>Bomber Command Museum of Canada Archives</Link>, <Link  className="text-blue-500 underline cursor-pointer hover:text-blue-600 transition-300" href={"https://aircrewremembered.com/"}>Aircrew
-                  Remembered</Link> and <Link  className="text-blue-500 underline cursor-pointer hover:text-blue-600 transition-300" href={"https://www.canadianletters.ca/collections/469"}>the Canadian Letters and Images Project</Link>.
+                  that may be helpful, such as{" "}
+                  <Link
+                    className="text-blue-500 underline cursor-pointer hover:text-blue-600 transition-300"
+                    href={"https://caspir.warplane.com/"}
+                  >
+                    CASPIR: Canadian Aircraft Serials Personnel Information
+                    Resource (Canadian Warplane Heritage Museum)
+                  </Link>
+                  ,{" "}
+                  <Link
+                    className="text-blue-500 underline cursor-pointer hover:text-blue-600 transition-300"
+                    href={
+                      "https://www.bombercommandmuseumarchives.ca/index.html"
+                    }
+                  >
+                    Bomber Command Museum of Canada Archives
+                  </Link>
+                  ,{" "}
+                  <Link
+                    className="text-blue-500 underline cursor-pointer hover:text-blue-600 transition-300"
+                    href={"https://aircrewremembered.com/"}
+                  >
+                    Aircrew Remembered
+                  </Link>{" "}
+                  and{" "}
+                  <Link
+                    className="text-blue-500 underline cursor-pointer hover:text-blue-600 transition-300"
+                    href={"https://www.canadianletters.ca/collections/469"}
+                  >
+                    the Canadian Letters and Images Project
+                  </Link>
+                  .
                 </li>
               </ul>
             </div>
           </div>
-
-         
+          <div className=" p-6">
+            <h2 className="text-xl py-5 w-full px-2 bg-gray-800  sm:text-2xl font-semibold text-white mb-4">
+              Write and Submit A Report
+            </h2>
+            <ul className="list-disc px-6 py-2">
+              <li className="text-black p-2">
+                Use the headings below to organize the information found and
+                structure a report. If available, add pictures and images.
+              </li>
+              <li className="text-black p-2">
+                Include the sources of information for all sections. Often, the
+                name of the source of information and the URL link are listed at
+                the end of each section.
+              </li>
+              <li className="text-black p-2">
+                Save the final report as a WORD document (.docx)
+              </li>
+              <li className="text-black p-2">
+                Go to the{" "}
+                <Link
+                  className="text-blue-500 underline cursor-pointer hover:text-blue-600 transition-300"
+                  href={"/"}
+                >
+                  WWII Canadian MIA Aircrew Database
+                </Link>{" "}
+                and upload your completed report. Your report will be reviewed
+                to verify the information and a summary of the findings posted
+                on the database, with your permission.{" "}
+              </li>
+            </ul>
+          </div>
+          <table className="border border-black p-2 text-black">
+            <tbody>
+              <tr>
+                <td className="border border-black p-2 text-black">
+                  Suggested Title of Report
+                </td>
+                <td className="border FONT-BOLD border-black p-2 text-black">
+                  Historical Research Report on (insert name of person being
+                  researched): A WWII Canadian Aircrew with No Known Grave
+                </td>
+              </tr>
+              <tr>
+                <td className="border border-black p-2 text-black">
+                  Authorship
+                </td>
+                <td className="border border-black p-2 text-black">
+                  Your first and last name and the date the report was completed
+                </td>
+              </tr>
+              <tr>
+                <td className="border border-black p-2 text-black">
+                  Section Headings
+                </td>
+                <td className="border border-black p-2 text-black">
+                  <p className="pb-2">
+                    <b>Demographic and Military Information:</b> Person’s name,
+                    hometown, province, age, rank, service number, and squadron.
+                    If available, include a picture of the person.
+                  </p>
+                  <p className="pb-2">
+                    <b>Civil Life:</b> Describe the person's life before their
+                    military career. It may be helpful to include a historical
+                    perspective of the geographical, social, and/or cultural
+                    settings of the province the person was from. For example,
+                    in 1945, Newfoundland was not a Canadian province.
+                  </p>
+                  <p className="pb-2">
+                    <b>Military Career:</b> Describe their military career up
+                    until their final mission. Include awards, newspaper stories
+                    or other information relevant to this section
+                  </p>
+                  <p className="pb-2">
+                    <b>Final Mission and Death:</b> Describe a brief background
+                    on the war during the final mission, the final mission and
+                    information related to the crash and death.
+                  </p>
+                  <p>
+                    <b>Memorial Actions:</b> Identify evidence to remember the
+                    person.
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td className="border border-black p-2 text-black">
+                  Sources of Information
+                </td>
+                <td className="border border-black p-2 text-black">
+                  List the name and URL link of information sources used to
+                  write the report.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <Image
+            className="w-full max-h-[400px] opacity-70 py-4"
+            src={canada_flag}
+          ></Image>
+          <div className="border border-black p-2 text-black">
+            <p className="pb-2">
+              <b>Acknowledgements: </b> The content of this guide was influenced
+              by the Canadian War Museum (2025).{" "}
+              <Link
+                className="text-blue-500 underline cursor-pointer hover:text-blue-600 transition-300"
+                href={
+                  "https://www.warmuseum.ca/wp-content/uploads/2025/01/guide-war-dead-missing.pdf"
+                }
+              >
+                Research Guides: Canada’s War Dead and Missing, 1914–1919,
+                1939–1945
+              </Link>{" "}
+              and personal communication with Pat Carrigan, Citizen Scientist
+              from Salt Springs, Nova Scotia and Michael Wilson, Legion Member
+              and High School teacher, New Germany, Nova Scotia.
+            </p>
+            <p className="pb-2">
+              <b>Reference for the guide: </b> Bergeron, K. (2025). A Guide for
+              Conducting Historical Research: WWII Canadian Aircrew with No
+              Known Grave. Acadia University Recovery Program. Available at{" "}
+              <Link
+                className="text-blue-500 underline cursor-pointer hover:text-blue-600 transition-300"
+                href={"/"}
+              >
+                WWII Canadian MIA Aircrew Database
+              </Link>
+            </p>
+            <p>
+              <b>Disclaimer: </b>All links were active at the time of
+              publication; however, this may change over time. If a link is
+              broken, please refer to the name of the source provided.
+            </p>
+          </div>
         </div>
       </div>
     </div>

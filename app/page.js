@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const Home = () => {
   return (
-    <div id="top" className="min-h-screen bg-gray-900 text-gray-100 flex items-center justify-center p-4">
+    <div id="top" className="min-h-screen bg-gray-900 text-gray-100 flex justify-center">
       <div className="container max-w-4xl flex flex-col gap-6 p-6 bg-gray-800 rounded-lg shadow-lg">
         {/* Intro Paragraph */}
         <p className="text-base leading-relaxed">

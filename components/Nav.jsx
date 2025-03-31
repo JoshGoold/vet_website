@@ -15,6 +15,12 @@ export default function Nav() {
         Home
       </Link>
       <Link
+        className={`hover:text-blue-400 ${pathname === "/about-us" ? "underline" : "hover:underline"}`}
+        href="/about-us"
+      >
+        About
+      </Link>
+      <Link
         className={`hover:text-blue-400 ${pathname === "/database" ? "underline" : "hover:underline"}`}
         href="/database"
       >
@@ -43,12 +49,6 @@ export default function Nav() {
         href="/research-guide"
       >
         Research Guide
-      </Link>
-      <Link
-        className={`hover:text-blue-400 ${pathname === "/about-us" ? "underline" : "hover:underline"}`}
-        href="/about-us"
-      >
-        About Us
       </Link>
     </nav>
   );

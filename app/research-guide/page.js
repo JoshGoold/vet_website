@@ -574,6 +574,7 @@ const Home = () => {
             </tbody>
           </table>
           <Image
+          alt="flag"
             className="w-full max-h-[400px] opacity-70 py-4"
             src={canada_flag}
           ></Image>

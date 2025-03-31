@@ -27,7 +27,7 @@ export default function RootLayout({ children }) {
         <header className="sticky top-0 z-50 bg-gray-900 border-b border-gray-700">
           <div className="container mx-auto px-4 py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
             <div className="flex items-center justify-between">
-              <h1 className="text-xl sm:text-2xl font-bold">WWII Canadian M.I.A. Aircrew</h1>
+              <h1 className="text-xl sm:text-2xl font-bold"> WWII Canadian MIA Aircrew Database</h1>
               <Image className="w-16 mx-2 h-10 sm:w-20 sm:h-12" alt="Canada flag" src={Canada} />
             </div>
             <Nav/>

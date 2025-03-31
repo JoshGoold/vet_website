@@ -1,52 +1,152 @@
-"use client"
-import React from 'react'
-import Link from 'next/link'
+"use client";
+import React from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { useState } from "react";
+
+import kim from "../../assets/kim-about-us-img.jpg";
+import josh from "../../assets/pic1.jpeg";
 
 const page = () => {
+  const [state, setState] = useState("kim")
+  const handleClick = (action) => {
+    switch(action){
+      case "left":
+        if(state === "kim") setState("josh")
+        else setState("kim")
+        break;
+      case "right":
+        if(state === "josh") setState("kim")
+        else setState("josh")
+        break;
+    }
+  }
   return (
-    <div id="top" className="min-h-screen bg-gray-900 text-gray-100 flex items-center justify-center p-4">
-      <div className="container max-w-4xl flex flex-col gap-6 p-6 bg-gray-800 rounded-lg shadow-lg">
+    <div
+      id="top"
+      className="min-h-screen bg-gray-900 text-gray-100 flex  justify-center "
+    >
+      <div className="container  flex flex-col gap-6 p-6 bg-gray-800  shadow-lg">
         {/* How to Participate Section */}
         <div>
-          <h2 className="text-xl font-semibold text-blue-400 mb-2">About Us:</h2>
+          <h2 className="text-3xl font-semibold text-center text-blue-400 mb-2">
+            About Us
+          </h2>
           <ul className="space-y-4 text-sm">
-            <li>
-              <h3 className="font-bold text-lg">Joshua Goold</h3>
-              <ul className="list-disc pl-5 space-y-1">
-                <li>Computer Programming Student at Humber College</li>
-                <li>Designed and built database, built web scraper to compile all the data</li>
-                <li>Designed and built this website for all of you</li>
-              </ul>
+            <li className="flex lg:flex-row flex-col items-center justify-around">
+              <div className="lg:max-w-[400px]">
+                <p className="lg:pb-8 pb-3">
+              <b className="text-xl">Designing the Database:</b>
+              <br /> Bergeron and Goold collaborated to create the database in
+              February2025.
+              </p>
+              <p className="lg:pb-8 pb-3">
+              <b className="text-xl">The Database Content:</b><br/> The names in this database come from
+              the RCAF Causalities-SecondWorld War webpage. We created a
+              computer program to find those who have no known graveand organize
+              their names by province and hometown. This work led to the
+              identification of3,749 missing aircrew personnel, whose names are
+              now part of this searchable database.
+            </p>
+            <p className="lg:pb-8 pb-3">
+              <b className="text-xl">How to reference this database:</b><br/> Bergeron, K. & Goold, J.
+              (2025) WWII Canadian MIA AircrewDatabase. Acadia University
+              Recovery Program. Live Website link here.
+            </p>
+              </div>
+              <div className="flex lg:flex-row flex-col items-center justify-center">
+                {state === "kim" && (
+                <div className="flex-col justify-center lg:max-w-[500px] p-5 rounded-md items-center flex gap-2">
+                  <h1 className="font-bold text-2xl">OUR TEAM</h1>
+                  <Image className="lg:max-w-[500px] object-cover lg:h-[400px]  " src={kim} alt="Dr. Kim Bergeron" />
+                  <p>
+                    <b>Dr. Kim Bergeron,</b> a social scientist and innovator,
+                    developed the conceptual framework for thedatabase,
+                    including the vision for an accessible, searchable online
+                    database to honourunaccounted-for Canadian military service
+                    personnel by focusing on MIA aircrew with no knowngrave.
+                  </p>
+                  <div className="flex gap-5 items-center justify-center">
+                  <button className="bg-gray-900 text-3xl rounded-full hover:scale-105 px-2 pb-1" onClick={()=> handleClick("left")}>{"<"}</button>
+                  <button className="bg-gray-900 text-3xl rounded-full hover:scale-105 px-2 pb-1" onClick={()=> handleClick("right")}>{">"}</button>
+                </div>
+                </div>
+                )}
+                {state === "josh" && (
+                <div className="flex-col justify-center lg:max-w-[500px] p-5 rounded-md  items-center flex gap-2">
+                  <h1 className="font-bold text-2xl">OUR TEAM</h1>
+                  <Image className="lg:max-w-[500px] object-cover lg:max-h-[400px] max-h-[300px] " src={josh} alt="Joshua Goold" />
+                  <p>
+                    <b>Josh Goold,</b> a computer programmer, translated this
+                    vision into a functional digital platform bydesigning and
+                    building the underlying computer program that supports the
+                    database’s structureand user interface.
+                  </p>
+                  <div className="flex gap-5 items-center justify-center">
+                  <button className="bg-gray-900 text-3xl rounded-full hover:scale-105 px-2 pb-1"  onClick={()=> handleClick("left")}>{"<"}</button>
+                  <button className="bg-gray-900 text-3xl rounded-full hover:scale-105 px-2 pb-1"   onClick={()=> handleClick("right")}>{">"}</button>
+                </div>
+                </div>
+                )}
+                
+              </div>
+              
             </li>
             <li>
-              <h3 className="font-bold text-lg">Dr. Kim Bergeron</h3>
-              <ul className="list-disc pl-5 space-y-1">
-                <li>Social Scientist and researcher</li>
-                <li>Validated data and did research stuff</li>
-                <li>You can write your stuff down kim...</li>
-              </ul>
+              <b className="text-2xl">
+                Why does the database focus on the WWII Canadian MIA Aircrew?
+              </b>
+              <p className=" pt-3">
+                Almost all Army fatalities have known graves, and the portion of
+                naval losses at sea arecommemorated on memorials, and remains
+                are not recoverable. The approximately 3,000+aircrews with no
+                known graves are commemorated as having no known grave (Library
+                andArchives Canada); however, some are recoverable. Conducting
+                historical research will help useidentify those that may be
+                recoverable.
+              </p>
             </li>
             <li>
-              <h3 className="font-bold text-lg">Something University</h3>
-              <ul className="list-disc pl-5 space-y-1">
-                <li>I forget the university name so kim could you getv some text</li>
-                <li>Funded the research of kim and the development of josh</li>
-              </ul>
+              <b className="text-2xl">What does MIA mean?</b>
+              <p className=" pt-3">
+                According to the Department of National Defence (DAOD 5040-3), a
+                person who died whileserving in the Canadian military and has no
+                known or maintainable grave is officially referred toas an
+                “unaccounted-for military fatality.” Library and Archives Canada
+                uses the term “missing inaction” (MIA) to describe military
+                personnel whose whereabouts and status remain unknownfollowing
+                an operation. On this site, the 3,749 individuals are listed as
+                missing in action or MIA.These individuals died while serving or
+                training during WWII, have no known grave, and areofficially
+                considered MIA.
+              </p>
+            </li>
+            <li>
+              <b className="text-2xl">What is the Acadia University Recovery Program (AURP)</b>
+              <p className=" pt-3">
+                AURP is dedicated to developing and implementing an active
+                recovery program focused onhistorical and investigative
+                research. Its goal is to support the recovery, identification,
+                andrepatriation or commemoration of MIA military service
+                personnel from World War I, World WarII, and the Korean
+                Conflict. This program is led by an interdisciplinary team: Dr.
+                Aaron Taylor(Acadia University), Dr. Kim Bergeron (Queen’s
+                University), and June McDonald-Jenkins (JDConsulting). The
+                program was established in 2023 and officially launched on
+                November 5, 2024.
+              </p>
+            </li>
+            <li>
+              <b className="text-2xl">Contact Us</b>
+              <p className=" pt-3">
+                Send an email to <Link href={"mailto:"}>Dr. Kim Bergeron</Link>
+              </p>
             </li>
           </ul>
         </div>
-
-        {/* Why It Matters Section */}
-        <div>
-          <h2 className="text-xl font-semibold text-blue-400 mb-2">Why Your Participation Matters:</h2>
-          <p className="text-base leading-relaxed">
-            Our database lists 3,749 Canadian aircrew members from WWII with no known graves. 
-            Their stories are often lost to time. Your research and writing ensure their sacrifices endure.
-          </p>
-        </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default page;

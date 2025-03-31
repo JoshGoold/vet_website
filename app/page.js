@@ -5,7 +5,8 @@ import Link from "next/link";
 const Home = () => {
   return (
     <div id="top" className="min-h-screen bg-gray-900 text-gray-100 flex justify-center">
-      <div className="container max-w-4xl flex flex-col gap-6 p-6 bg-gray-800 rounded-lg shadow-lg">
+      <div className="container flex flex-col gap-6 p-6 bg-gray-800  shadow-lg">
+        <h1 className="lg:text-2xl text-xl text-center text-white font-bold">Conduct historical research to help us write the life stories of these fallen heroes.</h1>
         {/* Intro Paragraph */}
         <p className="text-base leading-relaxed">
           We invite teachers, history enthusiasts, military personnel, families of service members, 
@@ -20,29 +21,29 @@ const Home = () => {
             <li>
               <h3 className="font-bold text-lg">1. Select a Name</h3>
               <ul className="list-disc pl-5 space-y-1">
-                <li>Explore our WWII Canadian Aircrew Database (below), organized by province and town.</li>
-                <li>Pick an aircrew member from your area to research.</li>
+                <li><Link href={"/database"} className="underline italic text-blue-300 hover:text-blue-500" >Visit the database.</Link></li>
+                <li>Pick a name. The names are organized by province and town.</li>
                 <li>Click “select” to register your choice.</li>
               </ul>
             </li>
             <li>
               <h3 className="font-bold text-lg">2. Research</h3>
               <ul className="list-disc pl-5 space-y-1">
-                <li>Use our Historical Research Instructions and Resources.</li>
+                <li>Use our <Link className="underline italic text-blue-300 hover:text-blue-500"  href={"/research-guide"}>Guide for Conducting Historical Research</Link></li>
               </ul>
             </li>
             <li>
               <h3 className="font-bold text-lg">3. Write</h3>
               <ul className="list-disc pl-5 space-y-1">
-                <li>Follow the Historical Research Report Template.</li>
+                <li>Use the Report template included in the <Link className="underline italic text-blue-300 hover:text-blue-500"  href={"/research-guide"}>Guide for Conducting Historical Research</Link></li>
               </ul>
             </li>
             <li>
               <h3 className="font-bold text-lg">4. Submit</h3>
               <ul className="list-disc pl-5 space-y-1">
-                <li>
+                <li>Upload your completed report{" "}
                   <Link className="underline italic text-blue-300 hover:text-blue-500" href="/submit">
-                    Click here to submit
+                    here.
                   </Link>
                 </li>
               </ul>
@@ -53,9 +54,17 @@ const Home = () => {
         {/* Why It Matters Section */}
         <div>
           <h2 className="text-xl font-semibold text-blue-400 mb-2">Why Your Participation Matters:</h2>
-          <p className="text-base leading-relaxed">
-            Our database lists 3,749 Canadian aircrew members from WWII with no known graves. 
-            Their stories are often lost to time. Your research and writing ensure their sacrifices endure.
+          <p className="text-base leading-relaxed pb-2">
+          Their life stories are often missing from remembrance. By conducting historical research andwriting their life story, you help honour their service and ensure their sacrifices are notforgotten.
+          </p>
+          <p className="text-base leading-relaxed pb-2">
+          Your contribution will also model “equality in death and “obligation of care” for these fallenheroes.
+          </p>
+          <p className="text-base leading-relaxed pb-2">
+          <i>Equality in death</i> means recognizing and honouring every military service member equally—regardless of rank, unit, or the circumstances of their loss.
+          </p>
+          <p className="text-base leading-relaxed pb-2">
+           <i>Obligation of care</i> refers to the enduring social contract between the government, the grievingfamilies of the missing, and the broader public to remember, respect, and care for those whodid not return.
           </p>
         </div>
 

@@ -241,11 +241,11 @@ const page = () => {
         </h2>
       </div>
 
-        <p className="mb-4 border-l-2 pl-2">The 10 Canadian provinces are listed below, each showing the number of MIA aircrewassociated with that province. Within each province, towns are listed alphabetically, along with the number of MIA aircrew from each town.</p>
+        <p className="mb-4 border-l-2 pl-2">The 10 Canadian provinces are listed below, each showing the number of MIA aircrew associated with that province. Within each province, towns are listed alphabetically, along with the number of MIA aircrew from each town.</p>
         <p className="mb-4">To get started, click on a name to view the available information. When you're ready tobegin your research, click “Select” to register your commitment to researching that individual.</p>
         <p className="mb-4">Once registered, you’ll receive a confirmation email acknowledging your contribution to the program and a link to a research guide to help you begin. After a couple of weeks, we will follow-up to see how the research is progressing.</p>
         <p className="mb-4">Use the buttons to navigate the database.</p>
-        <p className="mb-4"><i>Note:</i> While multiple people can collaborate on a single name, only one person needs to register their name with us. Teachers are encouraged to work with their students toresearch a name.</p>
+        <p className="mb-4"><i>Note:</i> While multiple people can collaborate on a single name, only one person needs to register their name with us. Teachers are encouraged to work with their students to research a name.</p>
       </div>
 
       <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">

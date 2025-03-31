@@ -10,19 +10,19 @@ import canada_flag from "../../assets/canada-flag.png";
 const Home = () => {
   return (
     <div id="top" className="min-h-screen bg-gray-900 text-gray-100 ">
-      <div className="max-w-4xl mx-auto flex flex-col ">
+      <div className="lg:max-w-4xl mx-auto flex flex-col ">
         {/* Hero Section */}
         <div className="text-center bg-gray-800  shadow-lg p-10 img-div">
-          <h1 className="text-2xl sm:text-2xl font-bold text-white mb-2">
+          <h1 className="lg:text-2xl  sm:text-2xl font-bold text-white mb-2">
             A Guide for Conducting Historical Research:
           </h1>
-          <h1 className="text-2xl sm:text-2xl font-bold text-white mb-2">
+          <h1 className="lg:text-2xl  font-bold text-white mb-2">
             WWII Aircrew with No Known Graves
           </h1>
-          <p className="text-sm sm:text-base ml-[200px] text-gray-400 leading-relaxed">
+          <p className="text-sm  lg:ml-[200px] text-gray-400 leading-relaxed">
             Developed by Dr. Kim Bergeron
           </p>
-          <p className="ml-[350px]">April 2025</p>
+          <p className="lg:ml-[350px] text-xs">April 2025</p>
         </div>
         <div className="bg-white p-5">
           {/* How to Participate Section */}

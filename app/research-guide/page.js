@@ -56,8 +56,8 @@ const Home = () => {
             <h2 className="text-xl py-5 w-full px-2 bg-gray-800 sm:text-2xl font-semibold text-white mb-4">
               Start a Personal Research Journal
             </h2>
-            <div className="flex items-center">
-              <ul className="list-disc max-w-[50%] px-6">
+            <div className="flex lg:flex-row flex-col items-center">
+              <ul className="list-disc lg:max-w-[50%] w-full px-6">
                 <li className="text-black p-2">
                   Keep a record of your research process, what is found, and
                   from what source of information.
@@ -71,7 +71,7 @@ const Home = () => {
                   </ul>
                 </li>
               </ul>
-              <div className="max-w-[50%]">
+              <div className="lg:max-w-[50%] w-full">
                 <Image
                   alt="pen and paper"
                   src={img}

@@ -42,15 +42,15 @@ const page = () => {
               </p>
               <p className="lg:pb-8 pb-3">
               <b className="text-xl">The Database Content:</b><br/> The names in this database come from
-              the RCAF Causalities-SecondWorld War webpage. We created a
+              the RCAF Causalities-Second World War webpage. We created a
               computer program to find those who have no known graveand organize
               their names by province and hometown. This work led to the
-              identification of3,749 missing aircrew personnel, whose names are
+              identification of 3,749 missing aircrew personnel, whose names are
               now part of this searchable database.
             </p>
             <p className="lg:pb-8 pb-3">
               <b className="text-xl">How to reference this database:</b><br/> Bergeron, K. & Goold, J.
-              (2025) WWII Canadian MIA AircrewDatabase. Acadia University
+              (2025) WWII Canadian MIA Aircrew Database. Acadia University
               Recovery Program. Live Website link here.
             </p>
               </div>
@@ -61,10 +61,10 @@ const page = () => {
                   <Image className="lg:max-w-[500px] object-cover lg:h-[400px]  " src={kim} alt="Dr. Kim Bergeron" />
                   <p>
                     <b>Dr. Kim Bergeron,</b> a social scientist and innovator,
-                    developed the conceptual framework for thedatabase,
+                    developed the conceptual framework for the database,
                     including the vision for an accessible, searchable online
-                    database to honourunaccounted-for Canadian military service
-                    personnel by focusing on MIA aircrew with no knowngrave.
+                    database to honour unaccounted-for Canadian military service
+                    personnel by focusing on MIA aircrew with no known grave.
                   </p>
                   <div className="flex gap-5 items-center justify-center">
                   <button className="bg-gray-900 text-3xl rounded-full hover:scale-105 px-2 pb-1" onClick={()=> handleClick("left")}>{"<"}</button>
@@ -78,9 +78,9 @@ const page = () => {
                   <Image className="lg:max-w-[500px] object-cover lg:max-h-[400px] max-h-[300px] " src={josh} alt="Joshua Goold" />
                   <p>
                     <b>Josh Goold,</b> a computer programmer, translated this
-                    vision into a functional digital platform bydesigning and
+                    vision into a functional digital platform by designing and
                     building the underlying computer program that supports the
-                    database’s structureand user interface.
+                    database’s structure and user interface.
                   </p>
                   <div className="flex gap-5 items-center justify-center">
                   <button className="bg-gray-900 text-3xl rounded-full hover:scale-105 px-2 pb-1"  onClick={()=> handleClick("left")}>{"<"}</button>
@@ -98,11 +98,11 @@ const page = () => {
               </b>
               <p className=" pt-3">
                 Almost all Army fatalities have known graves, and the portion of
-                naval losses at sea arecommemorated on memorials, and remains
-                are not recoverable. The approximately 3,000+aircrews with no
+                naval losses at sea are commemorated on memorials, and remains
+                are not recoverable. The approximately 3,000+ aircrews with no
                 known graves are commemorated as having no known grave (Library
-                andArchives Canada); however, some are recoverable. Conducting
-                historical research will help useidentify those that may be
+                and Archives Canada); however, some are recoverable. Conducting
+                historical research will help us identify those that may be
                 recoverable.
               </p>
             </li>
@@ -110,14 +110,14 @@ const page = () => {
               <b className="text-2xl">What does MIA mean?</b>
               <p className=" pt-3">
                 According to the Department of National Defence (DAOD 5040-3), a
-                person who died whileserving in the Canadian military and has no
-                known or maintainable grave is officially referred toas an
+                person who died while serving in the Canadian military and has no
+                known or maintainable grave is officially referred to as an
                 “unaccounted-for military fatality.” Library and Archives Canada
                 uses the term “missing inaction” (MIA) to describe military
-                personnel whose whereabouts and status remain unknownfollowing
+                personnel whose whereabouts and status remain unknown following
                 an operation. On this site, the 3,749 individuals are listed as
-                missing in action or MIA.These individuals died while serving or
-                training during WWII, have no known grave, and areofficially
+                missing in action or MIA. These individuals died while serving or
+                training during WWII, have no known grave, and are officially
                 considered MIA.
               </p>
             </li>
@@ -125,12 +125,12 @@ const page = () => {
               <b className="text-2xl">What is the Acadia University Recovery Program (AURP)</b>
               <p className=" pt-3">
                 AURP is dedicated to developing and implementing an active
-                recovery program focused onhistorical and investigative
+                recovery program focused on historical and investigative
                 research. Its goal is to support the recovery, identification,
-                andrepatriation or commemoration of MIA military service
-                personnel from World War I, World WarII, and the Korean
+                and repatriation or commemoration of MIA military service
+                personnel from World War I, World War II, and the Korean
                 Conflict. This program is led by an interdisciplinary team: Dr.
-                Aaron Taylor(Acadia University), Dr. Kim Bergeron (Queen’s
+                Aaron Taylor (Acadia University), Dr. Kim Bergeron (Queen’s
                 University), and June McDonald-Jenkins (JDConsulting). The
                 program was established in 2023 and officially launched on
                 November 5, 2024.
@@ -139,7 +139,7 @@ const page = () => {
             <li>
               <b className="text-2xl">Contact Us</b>
               <p className=" pt-3">
-                Send an email to <Link href={"mailto:"}>Dr. Kim Bergeron</Link>
+                Send an email to <Link className="underline italic text-blue-300 hover:text-blue-500" href={"mailto:"}>Dr. Kim Bergeron</Link>
               </p>
             </li>
           </ul>

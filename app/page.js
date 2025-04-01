@@ -55,16 +55,16 @@ const Home = () => {
         <div>
           <h2 className="text-xl font-semibold text-blue-400 mb-2">Why Your Participation Matters:</h2>
           <p className="text-base leading-relaxed pb-2">
-          Their life stories are often missing from remembrance. By conducting historical research andwriting their life story, you help honour their service and ensure their sacrifices are notforgotten.
+          Their life stories are often missing from remembrance. By conducting historical research and writing their life story, you help honour their service and ensure their sacrifices are not forgotten.
           </p>
           <p className="text-base leading-relaxed pb-2">
-          Your contribution will also model “equality in death and “obligation of care” for these fallenheroes.
+          Your contribution will also model “equality in death and “obligation of care” for these fallen heroes.
           </p>
           <p className="text-base leading-relaxed pb-2">
           <i>Equality in death</i> means recognizing and honouring every military service member equally—regardless of rank, unit, or the circumstances of their loss.
           </p>
           <p className="text-base leading-relaxed pb-2">
-           <i>Obligation of care</i> refers to the enduring social contract between the government, the grievingfamilies of the missing, and the broader public to remember, respect, and care for those whodid not return.
+           <i>Obligation of care</i> refers to the enduring social contract between the government, the grieving families of the missing, and the broader public to remember, respect, and care for those who did not return.
           </p>
         </div>
 

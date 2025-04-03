@@ -60,7 +60,7 @@ const Home = () => {
         <div>
           <h2 className="text-xl font-semibold text-blue-400 mb-2">Why Your Participation Matters:</h2>
           <p className="text-base leading-relaxed pb-2">
-          Their life stories are often missing from remembrance. By conducting historical research and writing their life story, you help honour their service and ensure their sacrifices are not forgotten.
+          These life stories are often missing from remembrance. By conducting historical research and writing their life story, you help honour their service and ensure their sacrifices are not forgotten.
           </p>
           <p className="text-base leading-relaxed pb-2">
           Your contribution will also model “equality in death and “obligation of care” for these fallen heroes.

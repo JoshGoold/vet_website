@@ -11,6 +11,19 @@ const Home = () => {
   return (
     <div id="top" className="min-h-screen bg-gray-900 text-gray-100 ">
       <div className="lg:max-w-4xl mx-auto flex flex-col ">
+        <div>
+          <p>
+            Download PDF if you prefer this method{" "}
+            <a
+              className="text-blue-500 cursor-pointer hover:text-blue-600 transition-300 italic underline"
+              href="/Guide for Conducting Historical Research_April 2025.pdf"
+              download="Guide_for_Conducting_Historical_Research_April_2025.pdf"
+            >
+              Download PDF
+            </a>
+            .
+          </p>
+        </div>
         {/* Hero Section */}
         <div className="text-center bg-gray-800  shadow-lg p-10 img-div">
           <h1 className="lg:text-2xl  sm:text-2xl font-bold text-white mb-2">
@@ -574,7 +587,7 @@ const Home = () => {
             </tbody>
           </table>
           <Image
-          alt="flag"
+            alt="flag"
             className="w-full max-h-[400px] opacity-70 py-4"
             src={canada_flag}
           ></Image>

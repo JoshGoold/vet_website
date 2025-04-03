@@ -43,7 +43,7 @@ export default function Admin() {
         return;
       }
 
-      const response = await fetch("/api/autherize", {
+      const response = await fetch("https://veteran-api-for-kim.vercel.app/validate", {
         method: "POST",
         body: JSON.stringify({
           email: formData.email,

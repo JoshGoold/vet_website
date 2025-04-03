@@ -38,20 +38,20 @@ const page = () => {
                 <p className="lg:pb-8 pb-3">
               <b className="text-xl">Designing the Database:</b>
               <br /> Bergeron and Goold collaborated to create the database in
-              February2025.
+              February 2025.
               </p>
               <p className="lg:pb-8 pb-3">
               <b className="text-xl">The Database Content:</b><br/> The names in this database come from
-              the RCAF Causalities-Second World War webpage. We created a
-              computer program to find those who have no known graveand organize
+              the <Link  className="underline italic text-blue-300 hover:text-blue-500" href={"https://www.rcafassociation.ca/heritage/history/fallen-aviators/rcaf-casualties-second-world-war/"}>RCAF Causalities-Second World War webpage</Link>. We created a
+              computer program to find those who have no known grave and organized
               their names by province and hometown. This work led to the
-              identification of 3,749 missing aircrew personnel, whose names are
+              identification of 3,749 missing aircrew personnel with no known grave, whose names are
               now part of this searchable database.
             </p>
             <p className="lg:pb-8 pb-3">
               <b className="text-xl">How to reference this database:</b><br/> Bergeron, K. & Goold, J.
               (2025) WWII Canadian MIA Aircrew Database. Acadia University
-              Recovery Program. Live Website link here.
+              Recovery Program. <Link  className="underline italic text-blue-300 hover:text-blue-500" href={"https://ww2-canadian-mia-aircrew-database.org/"}>WWII Canadian MIA Aircrew Database</Link>.
             </p>
               </div>
               <div className="flex lg:flex-row flex-col items-center justify-center">
@@ -60,7 +60,7 @@ const page = () => {
                   <h1 className="font-bold text-2xl">OUR TEAM</h1>
                   <Image className="lg:max-w-[500px] object-cover lg:h-[400px]  " src={kim} alt="Dr. Kim Bergeron" />
                   <p>
-                    <b>Dr. Kim Bergeron,</b> a social scientist and innovator,
+                    <b>Dr. Kim Bergeron,</b> a social innovator and scientist,
                     developed the conceptual framework for the database,
                     including the vision for an accessible, searchable online
                     database to honour unaccounted-for Canadian military service
@@ -75,7 +75,7 @@ const page = () => {
                 {state === "josh" && (
                 <div className="flex-col justify-center lg:max-w-[500px] p-5 rounded-md  items-center flex gap-2">
                   <h1 className="font-bold text-2xl">OUR TEAM</h1>
-                  <Image className="lg:max-w-[500px] object-cover lg:max-h-[400px] max-h-[300px] " src={josh} alt="Joshua Goold" />
+                  <Image className="lg:max-w-[500px] object-contain lg:max-h-[400px] max-h-[300px] " src={josh} alt="Joshua Goold" />
                   <p>
                     <b>Josh Goold,</b> a computer programmer, translated this
                     vision into a functional digital platform by designing and
@@ -98,8 +98,8 @@ const page = () => {
               </b>
               <p className=" pt-3">
                 Almost all Army fatalities have known graves, and the portion of
-                naval losses at sea are commemorated on memorials, and remains
-                are not recoverable. The approximately 3,000+ aircrews with no
+                naval losses at sea are commemorated on memorials, and their remains
+                are not recoverable. The approximately 3,000+ aircrew with no
                 known graves are commemorated as having no known grave (Library
                 and Archives Canada); however, some are recoverable. Conducting
                 historical research will help us identify those that may be
@@ -139,7 +139,7 @@ const page = () => {
             <li>
               <b className="text-2xl">Contact Us</b>
               <p className=" pt-3">
-                Send an email to <Link className="underline italic text-blue-300 hover:text-blue-500" href={"mailto:"}>Dr. Kim Bergeron</Link>
+                Send an email to <Link className="underline italic text-blue-300 hover:text-blue-500" href={"mailto:researchassistantkim@gmail.com"}>Dr. Kim Bergeron</Link>
               </p>
             </li>
           </ul>

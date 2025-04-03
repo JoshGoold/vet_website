@@ -29,7 +29,12 @@ const Home = () => {
             <li>
               <h3 className="font-bold text-lg">2. Research</h3>
               <ul className="list-disc pl-5 space-y-1">
-                <li>Use our <Link className="underline italic text-blue-300 hover:text-blue-500"  href={"/research-guide"}>Guide for Conducting Historical Research</Link></li>
+                <li>Use our <a
+              className="text-blue-500 cursor-pointer hover:text-blue-600 transition-300 italic underline"
+              href="/Guide for Conducting Historical Research_April 2025.pdf"
+              download="Guide_for_Conducting_Historical_Research_April_2025.pdf"
+            >
+              PDF Guide for Conducting Historical Research</a></li>
               </ul>
             </li>
             <li>
@@ -42,9 +47,9 @@ const Home = () => {
               <h3 className="font-bold text-lg">4. Submit</h3>
               <ul className="list-disc pl-5 space-y-1">
                 <li>Upload your completed report{" "}
-                  <Link className="underline italic text-blue-300 hover:text-blue-500" href="/submit">
+                  <a className="underline italic text-blue-300 hover:text-blue-500" href="mailto:researchassistantkim@gmail.com">
                     here.
-                  </Link>
+                  </a>
                 </li>
               </ul>
             </li>

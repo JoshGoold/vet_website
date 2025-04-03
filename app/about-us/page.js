@@ -56,9 +56,9 @@ const page = () => {
               </div>
               <div className="flex lg:flex-row flex-col items-center justify-center">
                 {state === "kim" && (
-                <div className="flex-col justify-center lg:max-w-[500px] p-5 rounded-md items-center flex gap-2">
+                <div className="flex-col justify-center lg:max-w-[500px] p-5 rounded-md h-[700px]  items-center flex gap-2">
                   <h1 className="font-bold text-2xl">OUR TEAM</h1>
-                  <Image className="lg:max-w-[500px] object-cover lg:h-[400px]  " src={kim} alt="Dr. Kim Bergeron" />
+                  <Image className="lg:w-[370px] object-cover lg:h-[370px] rounded-full h-[300px] w-[300px]" src={kim} alt="Dr. Kim Bergeron" />
                   <p>
                     <b>Dr. Kim Bergeron,</b> a social innovator and scientist,
                     developed the conceptual framework for the database,
@@ -73,9 +73,9 @@ const page = () => {
                 </div>
                 )}
                 {state === "josh" && (
-                <div className="flex-col justify-center lg:max-w-[500px] p-5 rounded-md  items-center flex gap-2">
+                <div className="flex-col justify-center lg:max-w-[500px] p-5 rounded-md h-[700px]  items-center flex gap-2">
                   <h1 className="font-bold text-2xl">OUR TEAM</h1>
-                  <Image className="lg:max-w-[500px] object-contain lg:max-h-[400px] max-h-[300px] " src={josh} alt="Joshua Goold" />
+                  <Image className="lg:w-[370px] object-cover rounded-full lg:h-[370px] h-[300px] w-[300px]" src={josh} alt="Joshua Goold" />
                   <p>
                     <b>Josh Goold,</b> a computer programmer, translated this
                     vision into a functional digital platform by designing and

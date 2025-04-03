@@ -1,85 +1,84 @@
 "use client";
 
-import Loader from "@/components/Loader";
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
+import Loader from "@/components/Loader";
 
 const CompletedStories = () => {
   const [stories, setStories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch stories from the API on mount
   useEffect(() => {
     const fetchStories = async () => {
       try {
-        const response = await fetch("/api/stories");
-        if (!response.ok) {
-          throw new Error("Failed to fetch stories");
-        }
+        const response = await fetch("https://veteran-api-for-kim.vercel.app/get-story", {method: "GET"}); // Adjust URL as needed
         const data = await response.json();
-        if(!data.Success){
-            return;
+        if(data.Success){
+          setStories(data.Stories);
         }
-        setStories(data.stories);
       } catch (err) {
-        console.error(error)
+        setError(err.message);
       } finally {
         setLoading(false);
       }
     };
-
     fetchStories();
   }, []);
 
-  // Handle file download
-  const handleDownload = async (id, filename) => {
-    try {
-      const response = await fetch(`/api/download/${id}`);
-      if (!response.ok) {
-        throw new Error("Failed to download file");
-      }
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = filename;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(url);
-    } catch (err) {
-      alert("Error downloading file: " + err.message);
-    }
-  };
+  if (loading) {
+    return (
+      <Loader/>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gray-900 flex items-center justify-center">
+        <p className="text-red-500 text-lg">Error: {error}</p>
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-gray-900 text-gray-100 flex items-center justify-center p-6">
-      <div className="max-w-4xl mx-auto w-full">
+    <div className="min-h-screen bg-gray-900 flex items-center justify-center p-6">
+      <div className="max-w-4xl w-full mx-auto">
         <h1 className="text-3xl font-bold text-blue-400 mb-6 text-center">Completed Stories</h1>
-
-        {loading ? (
-          <div className="flex justify-center">
-            <Loader />
-          </div>
-        ) : stories.length === 0 ? (
-          <p className="text-center text-gray-400 text-lg">No stories have been completed yet.</p>
+        {stories.length === 0 ? (
+          <p className="text-lg text-gray-400 text-center">
+            No stories have been completed yet. Check back later!
+          </p>
         ) : (
-          <ul className="space-y-4">
+          <div className="grid gap-6 md:grid-cols-2">
             {stories.map((story) => (
-              <li
+              <div
                 key={story._id}
-                className="bg-gray-800 p-4 rounded-lg shadow-md flex justify-between items-center hover:bg-gray-700 transition-colors"
+                className="bg-gray-800 rounded-lg shadow-lg p-4 hover:shadow-xl transition-shadow"
               >
-                <span className="text-lg">{story.filename}</span>
-                <button
-                  onClick={() => handleDownload(story._id, story.filename)}
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md font-medium transition-colors"
+                {story.img && (
+                  <Image
+                    src={`data:image/jpeg;base64,${Buffer.from(story.img).toString("base64")}`}
+                    alt={story.summary}
+                    width={300}
+                    height={200}
+                    className="w-full h-40 object-cover rounded-md mb-4"
+                  />
+                )}
+                <h2 className="text-xl font-semibold text-white mb-2">{story.summary}</h2>
+                <a
+                  href={story.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-500 hover:underline"
                 >
-                  Download
-                </button>
-              </li>
+                  Read Story
+                </a>
+                <p className="text-gray-400 text-sm mt-2">
+                  Completed: {new Date(story.createdAt).toLocaleDateString()}
+                </p>
+              </div>
             ))}
-          </ul>
+          </div>
         )}
       </div>
     </div>

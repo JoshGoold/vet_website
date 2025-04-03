@@ -77,7 +77,7 @@ const PortalContent = () => {
     };
     initialize();
   }, []);
-  
+
   const provinces = new Set([
     "Alberta", "British Columbia", "Manitoba", "New Brunswick", "Newfoundland",
     "Nova Scotia", "Ontario", "Prince Edward Island", "Quebec", "Saskatchewan",
@@ -147,10 +147,8 @@ const PortalContent = () => {
             onClick={() => setNavState("pending submissions")}
             className={`p-4 hover:bg-blue-800 cursor-pointer relative ${navState === "pending submissions" ? "bg-blue-800" : ""}`}
           >
-            Pending Submissions
-            <span className="absolute top-2 right-2 bg-red-500 text-xs px-2 py-1 rounded-full">
-              {stor.length || 0}
-            </span>
+            Upload Material
+            
           </li>
           <li className="p-4 hover:bg-blue-800 cursor-pointer">
             <Link href="/">Exit Portal</Link>
@@ -165,7 +163,7 @@ const PortalContent = () => {
         )}
         {navState === "active research" && <Research />}
         {navState === "active participants" && <Participants />}
-        {navState === "pending submissions" && <Pending setStor={setStor} />}
+        {navState === "pending submissions" && <Pending  />}
       </div>
     </div>
   );

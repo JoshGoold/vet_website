@@ -9,9 +9,9 @@ const Home = () => {
         <h1 className="lg:text-2xl text-xl text-center text-white font-bold">Conduct historical research to help us write the life stories of these fallen heroes.</h1>
         {/* Intro Paragraph */}
         <p className="text-base leading-relaxed">
-          We invite teachers, history enthusiasts, military personnel, families of service members, 
-          social justice advocates, and the public to join us in honoring Canadian aircrew members 
-          from World War II with no known graves. Together, let’s preserve their legacy.
+        We invite educators, history enthusiasts, military personnel, family members of service members, 
+        social justice advocates, and members of the general public to join us in honouring Canadian aircrew 
+        members from World War II with no known graves. Together, let's preserve their legacy. 
         </p>
 
         {/* How to Participate Section */}

@@ -41,7 +41,7 @@ const CompletedStories = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 flex items-center justify-center p-6">
+    <div className="min-h-screen bg-gray-900  p-6">
       <div className="max-w-4xl w-full mx-auto">
         <h1 className="text-3xl font-bold text-blue-400 mb-6 text-center">Completed Stories</h1>
         {stories.length === 0 ? (

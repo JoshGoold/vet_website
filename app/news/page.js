@@ -50,7 +50,7 @@ const News = () => {
           </p>
         ) : (
           <div className="space-y-6">
-            {newsItems.sort((a,b)=> new Date(a.createdAt) + new Date(b.createdAt)).map((item) => (
+            {newsItems.sort((a,b)=> new Date(a.createdAt) - new Date(b.createdAt)).map((item) => (
               <div
                 key={item._id}
                 className="bg-gray-800 rounded-lg shadow-lg p-4 flex flex-col md:flex-row gap-4 hover:shadow-xl transition-shadow"

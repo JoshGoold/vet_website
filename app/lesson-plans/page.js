@@ -67,7 +67,7 @@ const LessonPlans = () => {
                     alt={plan.summary}
                     width={300}
                     height={200}
-                    className="w-full h-40 object-cover rounded-md mb-4"
+                    className="w-full h-40 object-contain rounded-md mb-4"
                   />
                 )}
                 <h2 className="text-xl font-semibold text-white mb-2">{plan.summary}</h2>

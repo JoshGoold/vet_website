@@ -56,7 +56,7 @@ const LessonPlans = () => {
           </p>
         ) : (
           <div className="grid gap-6 md:grid-cols-2">
-            {lessonPlans.map((plan) => (
+            {lessonPlans.sort((a,b)=> new Date(b.createdAt) - new Date(a.createdAt)).map((plan) => (
               <div
                 key={plan._id}
                 className="bg-gray-800 rounded-lg shadow-lg p-4 hover:shadow-xl transition-shadow"

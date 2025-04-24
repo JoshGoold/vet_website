@@ -12,6 +12,7 @@ const Visitors = () => {
   const [message, setMessage] = useState("");
   const [visitorFilter, setVisitorFilter] = useState("All-Time");
   const [selectedVisitor, setSelectedVisitor] = useState(null);
+  const [row, setRow] = useState([0,20])
 
 
 
@@ -150,7 +151,7 @@ const Visitors = () => {
                 </tr>
               </thead>
               <tbody>
-                {filteredData.map((visitor, index) => (
+                {filteredData.slice(row[0], row[1]).sort((a,b)=> new Date(b.createdAt) - new Date(a.createdAt)).map((visitor, index) => (
                   <tr key={index} className="border-b border-gray-700 hover:bg-gray-700">
                     <td className="py-3 px-4 text-gray-100">{visitor.ip}</td>
                     <td className="py-3 px-4 text-gray-100">{visitor.deviceType}</td>
@@ -171,6 +172,28 @@ const Visitors = () => {
                 ))}
               </tbody>
             </table>
+            <div className="flex justify-center gap-4">
+                <button onClick={()=> {
+                    if(row[0]===0){
+                        return;
+                    }
+                    else{
+                        row[0]-=20;
+                        row[1]-=20;
+                    }
+                    
+                }} className="bg-gray-700 text-white text-2xl border-white border rounded-md hover:bg-gray-800">←</button>
+                <button onClick={()=> {
+                    if(row[1]>=data.length){
+                        return;
+                    }
+                    else{
+                        row[0]+=20;
+                        row[1]+=20;
+                    }
+                    
+                }} className="bg-gray-700 text-white text-2xl border-white border rounded-md hover:bg-gray-800">→</button>
+            </div>
           </div>
         ) : (
           <div className="text-center py-12">

@@ -25,11 +25,10 @@ const LessonPlans = () => {
     };
     fetchLessonPlans();
   }, []);
-  const router = useRouter();
 
   useEffect(() => {
-    logVisit(router.asPath);
-  }, [router.asPath]);
+    logVisit("/lesson-plans");
+  }, []);
 
 
   if (loading) {

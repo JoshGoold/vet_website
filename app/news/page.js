@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Loader from "@/components/Loader";
 
-import { useRouter } from "next/router";
 import logVisit from "@/utils/logVisit";
 
 const News = () => {
@@ -28,11 +27,10 @@ const News = () => {
     };
     fetchNews();
   }, []);
-  const router = useRouter();
 
   useEffect(() => {
-    logVisit(router.asPath);
-  }, [router.asPath]);
+    logVisit("/news");
+  }, []);
 
 
   if (loading) {

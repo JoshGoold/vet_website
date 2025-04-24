@@ -3,7 +3,6 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/router";
 import logVisit from "@/utils/logVisit";
 
 import kim from "../../assets/kim-about-us-img.jpg";
@@ -23,11 +22,10 @@ const page = () => {
         break;
     }
   }
-  const router = useRouter();
 
   useEffect(() => {
-    logVisit(router.asPath);
-  }, [router.asPath]);
+    logVisit("/about-us");
+  }, []);
 
   return (
     <div

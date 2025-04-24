@@ -13,7 +13,6 @@ import Saskatchewan from "@/assets/Flags/Saskatchewan.png"
 import NewBrunswick from "@/assets/Flags/New Brunswick.png"
 import BritishColumbia from "@/assets/Flags/British Columbia.png"
 import Image from "next/image";
-import { useRouter } from "next/router";
 import logVisit from "@/utils/logVisit";
 
 const page = () => {
@@ -86,11 +85,11 @@ const page = () => {
       setFormState(true);
       setSelectedVeteran({...veteran, index});
     };
-    const router = useRouter();
+
 
   useEffect(() => {
-    logVisit(router.asPath);
-  }, [router.asPath]);
+    logVisit("/database");
+  }, []);
 
   
     useEffect(() => {

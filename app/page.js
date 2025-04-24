@@ -2,16 +2,14 @@
 
 import Link from "next/link";
 import { useEffect } from "react";
-import { useRouter } from "next/router";
 import logVisit from "@/utils/logVisit";
 
 const Home = () => {
 
-  const router = useRouter();
 
   useEffect(() => {
-    logVisit(router.asPath);
-  }, [router.asPath]);
+    logVisit("/");
+  }, []);
 
   return (
     <div id="top" className="min-h-screen bg-gray-900 text-gray-100 flex justify-center">

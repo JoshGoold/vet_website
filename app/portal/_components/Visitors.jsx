@@ -194,6 +194,7 @@ const Visitors = () => {
                     
                 }} className="bg-gray-700 text-white px-4 py-2 text-2xl border-gray-700 border rounded-md hover:bg-gray-800">→</button>
             </div>
+            <p className="text-center text-sm text-gray-500">Showing results {row[0]} - {row[1]}, of {filteredData.length} documents</p>
           </div>
         ) : (
           <div className="text-center py-12">

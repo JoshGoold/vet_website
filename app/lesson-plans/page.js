@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Loader from "@/components/Loader";
+import logVisit from "@/utils/logVisit";
 
 const LessonPlans = () => {
   const [lessonPlans, setLessonPlans] = useState([]);

@@ -117,7 +117,7 @@ const PortalContent = () => {
   return (
     <div className="min-h-screen bg-gray-900 flex flex-col lg:flex-row">
       {/* Sidebar */}
-      <div className="w-full lg:w-64 bg-gray-800 text-white flex-shrink-0">
+      <div className="w-full lg:w-64 lg:sticky lg:top-[100px] lg:h-screen bg-gray-800 text-white flex-shrink-0">
         <h1 className="text-2xl font-light p-4 border-b border-gray-700">Admin Portal</h1>
         <ul className="divide-y divide-gray-700">
           <li

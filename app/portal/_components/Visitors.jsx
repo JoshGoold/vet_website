@@ -172,7 +172,7 @@ const Visitors = () => {
                 ))}
               </tbody>
             </table>
-            <div className="flex justify-center gap-4">
+            <div className="flex justify-center gap-4 mt-4">
                 <button onClick={()=> {
                     if(row[0]===0){
                         return;
@@ -182,7 +182,7 @@ const Visitors = () => {
                         row[1]-=20;
                     }
                     
-                }} className="bg-gray-700 text-white text-2xl border-white border rounded-md hover:bg-gray-800">←</button>
+                }} className="bg-gray-700 text-white px-4 py-2 text-2xl border-gray-700 border rounded-md hover:bg-gray-800">←</button>
                 <button onClick={()=> {
                     if(row[1]>=data.length){
                         return;
@@ -192,7 +192,7 @@ const Visitors = () => {
                         row[1]+=20;
                     }
                     
-                }} className="bg-gray-700 text-white text-2xl border-white border rounded-md hover:bg-gray-800">→</button>
+                }} className="bg-gray-700 text-white px-4 py-2 text-2xl border-gray-700 border rounded-md hover:bg-gray-800">→</button>
             </div>
           </div>
         ) : (

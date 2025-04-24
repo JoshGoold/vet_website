@@ -61,6 +61,7 @@ const LessonPlans = () => {
                 key={plan._id}
                 className="bg-gray-800 rounded-lg shadow-lg p-4 hover:shadow-xl transition-shadow"
               >
+                <div className="bg-white rounded-lg">
                 {plan.img && (
                   <Image
                     src={`data:image/jpeg;base64,${Buffer.from(plan.img).toString("base64")}`}
@@ -70,6 +71,7 @@ const LessonPlans = () => {
                     className="w-full h-40 object-contain rounded-md mb-4"
                   />
                 )}
+                </div>
                 <h2 className="text-xl font-semibold text-white mb-2">{plan.summary}</h2>
                 <a
                   href={plan.link}

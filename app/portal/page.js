@@ -8,6 +8,7 @@ import Research from "./_components/Research";
 import Pending from "./_components/Pending";
 import Participants from "./_components/Participants";
 import Link from "next/link";
+import Visitors from "./_components/Visitors";
 
 const PortalContent = () => {
   const searchParams = useSearchParams();
@@ -126,6 +127,11 @@ const PortalContent = () => {
             Dashboard
           </li>
           <li
+          onClick={() => setNavState("visitors")}
+          className={`p-4 hover:bg-blue-800 cursor-pointer ${navState === "visitors" ? "bg-blue-800" : ""}`}>
+            Visitors
+          </li>
+          <li
             onClick={() => setNavState("active research")}
             className={`p-4 hover:bg-blue-800 cursor-pointer relative ${navState === "active research" ? "bg-blue-800" : ""}`}
           >
@@ -164,6 +170,7 @@ const PortalContent = () => {
         {navState === "active research" && <Research />}
         {navState === "active participants" && <Participants />}
         {navState === "pending submissions" && <Pending  />}
+        {navState === "visitors" && <Visitors/>}
       </div>
     </div>
   );

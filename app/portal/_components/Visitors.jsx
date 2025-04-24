@@ -1,13 +1,19 @@
-import React, { useState, useEffect } from "react";
+// pages/visitors.js
+import { useState, useEffect } from "react";
+
 import Loader from "@/components/Loader";
 
+
 const Visitors = () => {
+
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [visitorFilter, setVisitorFilter] = useState("All-Time");
   const [selectedVisitor, setSelectedVisitor] = useState(null);
+
+
 
   // Fetch visitor data
   const fetchVisitors = async () => {
@@ -24,7 +30,7 @@ const Visitors = () => {
         setFilteredData([]);
       } else {
         setData(result.Visitors);
-        setFilteredData(result.Visitors); // Initialize with all visitors
+        setFilteredData(result.Visitors);
         setMessage("");
       }
     } catch (error) {
@@ -46,7 +52,6 @@ const Visitors = () => {
     setVisitorFilter(timePeriod);
     const now = new Date();
     let filtered = [];
-
     switch (timePeriod) {
       case "Daily":
         filtered = data.filter((v) => {
@@ -57,21 +62,24 @@ const Visitors = () => {
       case "Weekly":
         filtered = data.filter((v) => {
           const visitDate = new Date(v.createdAt);
-          const oneWeekAgo = new Date(now.setDate(now.getDate() - 7));
+          const oneWeekAgo = new Date(now);
+          oneWeekAgo.setDate(now.getDate() - 7);
           return visitDate >= oneWeekAgo;
         });
         break;
       case "Monthly":
         filtered = data.filter((v) => {
           const visitDate = new Date(v.createdAt);
-          const oneMonthAgo = new Date(now.setMonth(now.getMonth() - 1));
+          const oneMonthAgo = new Date(now);
+          oneMonthAgo.setMonth(now.getMonth() - 1);
           return visitDate >= oneMonthAgo;
         });
         break;
       case "Yearly":
         filtered = data.filter((v) => {
           const visitDate = new Date(v.createdAt);
-          const oneYearAgo = new Date(now.setFullYear(now.getFullYear() - 1));
+          const oneYearAgo = new Date(now);
+          oneYearAgo.setFullYear(now.getFullYear() - 1);
           return visitDate >= oneYearAgo;
         });
         break;
@@ -81,7 +89,6 @@ const Visitors = () => {
       default:
         filtered = data;
     }
-
     setFilteredData(filtered);
   };
 
@@ -98,101 +105,109 @@ const Visitors = () => {
   if (loading) return <Loader />;
 
   return (
-    <div className="container mx-auto p-4">
-      {/* Header and Stats */}
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold text-gray-800">Visitors</h1>
-        <p className="text-lg text-gray-600">
-          Total Visitors: <span className="font-semibold">{data.length}</span> | Filtered: <span className="font-semibold">{filteredData.length}</span>
+    <div className="min-h-screen bg-gray-900 text-gray-100 p-4 sm:p-6">
+      {/* Header */}
+      <div className="mb-6 text-center">
+        <h1 className="text-3xl sm:text-4xl font-bold text-white">Visitors</h1>
+        <p className="mt-2 text-sm sm:text-base text-gray-400">
+          Total Visitors: <span className="text-blue-400 font-semibold">{data.length}</span> | Filtered: <span className="text-blue-400 font-semibold">{filteredData.length}</span>
         </p>
-        {message && <p className="text-red-500 mt-2">{message}</p>}
+        {message && <p className="text-red-500 mt-2 text-sm">{message}</p>}
       </div>
 
       {/* Filter Buttons */}
-      <div className="flex flex-wrap gap-2 mb-6">
-        {["Daily", "Weekly", "Monthly", "Yearly", "All-Time"].map((period) => (
-          <button
-            key={period}
-            onClick={() => visitorFilterer(period)}
-            className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-              visitorFilter === period
-                ? "bg-blue-600 text-white"
-                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-            }`}
-          >
-            {period}
-          </button>
-        ))}
+      <div className="max-w-4xl mx-auto mb-6">
+        <div className="flex flex-wrap justify-center gap-2">
+          {["Daily", "Weekly", "Monthly", "Yearly", "All-Time"].map((period) => (
+            <button
+              key={period}
+              onClick={() => visitorFilterer(period)}
+              className={`px-4 py-2 rounded-md font-medium text-sm transition-colors ${
+                visitorFilter === period
+                  ? "bg-green-600 text-white"
+                  : "bg-gray-700 text-gray-300 hover:bg-gray-600"
+              }`}
+            >
+              {period}
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Filtered Visitors Table */}
-      {filteredData.length > 0 ? (
-        <div className="overflow-x-auto">
-          <table className="min-w-full bg-white shadow-md rounded-lg">
-            <thead>
-              <tr className="bg-gray-100 text-gray-600 uppercase text-sm">
-                <th className="py-3 px-4 text-left">IP</th>
-                <th className="py-3 px-4 text-left">Device</th>
-                <th className="py-3 px-4 text-left">Referrer</th>
-                <th className="py-3 px-4 text-left">Date Visited</th>
-                <th className="py-3 px-4 text-left">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredData.map((visitor, index) => (
-                <tr key={index} className="border-b hover:bg-gray-50">
-                  <td className="py-3 px-4">{visitor.ip}</td>
-                  <td className="py-3 px-4">{visitor.deviceType}</td>
-                  <td className="py-3 px-4">{visitor.referrer || "Direct"}</td>
-                  <td className="py-3 px-4">
-                    {new Date(visitor.createdAt).toLocaleString()}
-                  </td>
-                  <td className="py-3 px-4">
-                    <button
-                      onClick={() => openVisitorModal(visitor)}
-                      className="text-blue-600 hover:underline"
-                    >
-                      View Details
-                    </button>
-                  </td>
+      <div className="max-w-4xl mx-auto">
+        {filteredData.length > 0 ? (
+          <div className="overflow-x-auto">
+            <table className="min-w-full bg-gray-800 border border-gray-700 rounded-lg shadow-md">
+              <thead>
+                <tr className="bg-gray-700 text-gray-300 uppercase text-xs">
+                  <th className="py-3 px-4 text-left">IP</th>
+                  <th className="py-3 px-4 text-left">Device</th>
+                  <th className="py-3 px-4 text-left">Referrer</th>
+                  <th className="py-3 px-4 text-left">Page Visited</th>
+                  <th className="py-3 px-4 text-left">Date Visited</th>
+                  <th className="py-3 px-4 text-left">Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      ) : (
-        <p className="text-gray-500">No visitors found for the selected period.</p>
-      )}
+              </thead>
+              <tbody>
+                {filteredData.map((visitor, index) => (
+                  <tr key={index} className="border-b border-gray-700 hover:bg-gray-700">
+                    <td className="py-3 px-4 text-gray-100">{visitor.ip}</td>
+                    <td className="py-3 px-4 text-gray-100">{visitor.deviceType}</td>
+                    <td className="py-3 px-4 text-gray-100">{visitor.referrer || "Direct"}</td>
+                    <td className="py-3 px-4 text-gray-100">{visitor.pageVisited || "Unknown"}</td>
+                    <td className="py-3 px-4 text-gray-100">
+                      {new Date(visitor.createdAt).toLocaleString()}
+                    </td>
+                    <td className="py-3 px-4">
+                      <button
+                        onClick={() => openVisitorModal(visitor)}
+                        className="bg-green-600 text-white px-3 py-1 rounded-md text-sm hover:bg-green-700 transition-colors"
+                      >
+                        View Details
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <div className="text-center py-12">
+            <p className="text-lg text-gray-400">No visitors found for the selected period.</p>
+          </div>
+        )}
+      </div>
 
       {/* Visitor Details Modal */}
       {selectedVisitor && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-full max-w-md">
-            <h2 className="text-2xl font-semibold mb-4">Visitor Details</h2>
-            <div className="space-y-2">
-              <p>
-                <strong>IP:</strong> {selectedVisitor.ip}
-              </p>
-              <p>
-                <strong>Device:</strong> {selectedVisitor.deviceType}
-              </p>
-              <p>
-                <strong>Referrer:</strong> {selectedVisitor.referrer || "Direct"}
-              </p>
-              <p>
-                <strong>Date Visited:</strong>{" "}
-                {new Date(selectedVisitor.createdAt).toLocaleString()}
-              </p>
+          <div className="bg-gray-800 border border-gray-700 rounded-lg p-6 w-full max-w-md">
+            <h2 className="text-2xl font-semibold text-white mb-4">Visitor Details</h2>
+            <div className="space-y-2 text-gray-100">
+              <p><strong>IP:</strong> {selectedVisitor.ip}</p>
+              <p><strong>Device:</strong> {selectedVisitor.deviceType}</p>
+              <p><strong>Referrer:</strong> {selectedVisitor.referrer || "Direct"}</p>
+              <p><strong>Page Visited:</strong> {selectedVisitor.pageVisited || "Unknown"}</p>
+              <p><strong>Date Visited:</strong> {new Date(selectedVisitor.createdAt).toLocaleString()}</p>
             </div>
             <div className="mt-6 flex justify-end">
               <button
                 onClick={closeVisitorModal}
-                className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300"
+                className="px-4 py-2 bg-gray-700 text-gray-300 rounded-md hover:bg-gray-600 transition-colors"
               >
                 Close
               </button>
             </div>
           </div>
+        </div>
+      )}
+
+      {/* Footer */}
+      {filteredData.length > 0 && (
+        <div className="mt-6 text-center text-xs text-gray-500 max-w-4xl mx-auto">
+          <p>Data updated: {new Date().toLocaleDateString()}</p>
+          <p>{filteredData.length} visitors displayed</p>
         </div>
       )}
     </div>

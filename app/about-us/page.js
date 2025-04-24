@@ -2,7 +2,9 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+import logVisit from "@/utils/logVisit";
 
 import kim from "../../assets/kim-about-us-img.jpg";
 import josh from "../../assets/pic1.jpeg";
@@ -21,6 +23,12 @@ const page = () => {
         break;
     }
   }
+  const router = useRouter();
+
+  useEffect(() => {
+    logVisit(router.asPath);
+  }, [router.asPath]);
+
   return (
     <div
       id="top"

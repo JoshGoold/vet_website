@@ -1,22 +1,16 @@
-// pages/visitors.js
 import { useState, useEffect } from "react";
-
 import Loader from "@/components/Loader";
 
-
 const Visitors = () => {
-
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [visitorFilter, setVisitorFilter] = useState("All-Time");
   const [selectedVisitor, setSelectedVisitor] = useState(null);
-  const [row, setRow] = useState([0,20])
+  const [row, setRow] = useState([0, 20]); // [startIndex, endIndex]
 
-
-
-  // Fetch visitor data
+  // Fetch visitor data (unchanged)
   const fetchVisitors = async () => {
     setLoading(true);
     try {
@@ -48,7 +42,7 @@ const Visitors = () => {
     fetchVisitors();
   }, []);
 
-  // Filter visitors by time period
+  // Filter visitors by time period (unchanged)
   const visitorFilterer = (timePeriod) => {
     setVisitorFilter(timePeriod);
     const now = new Date();
@@ -91,23 +85,35 @@ const Visitors = () => {
         filtered = data;
     }
     setFilteredData(filtered);
+    setRow([0, 20]); // Reset pagination when filter changes
   };
 
-  // Open modal with visitor details
+  // Open modal with visitor details (unchanged)
   const openVisitorModal = (visitor) => {
     setSelectedVisitor(visitor);
   };
 
-  // Close modal
+  // Close modal (unchanged)
   const closeVisitorModal = () => {
     setSelectedVisitor(null);
+  };
+
+  // Pagination handlers
+  const handlePrevious = () => {
+    if (row[0] === 0) return; // Already at the first page
+    setRow([row[0] - 20, row[1] - 20]);
+  };
+
+  const handleNext = () => {
+    if (row[1] >= filteredData.length) return; // No more data to show
+    setRow([row[0] + 20, row[1] + 20]);
   };
 
   if (loading) return <Loader />;
 
   return (
     <div className="min-h-screen bg-gray-900 text-gray-100 p-4 sm:p-6">
-      {/* Header */}
+      {/* Header (unchanged) */}
       <div className="mb-6 text-center">
         <h1 className="text-3xl sm:text-4xl font-bold text-white">Visitors</h1>
         <p className="mt-2 text-sm sm:text-base text-gray-400">
@@ -116,7 +122,7 @@ const Visitors = () => {
         {message && <p className="text-red-500 mt-2 text-sm">{message}</p>}
       </div>
 
-      {/* Filter Buttons */}
+      {/* Filter Buttons (unchanged) */}
       <div className="max-w-4xl mx-auto mb-6">
         <div className="flex flex-wrap justify-center gap-2">
           {["Daily", "Weekly", "Monthly", "Yearly", "All-Time"].map((period) => (
@@ -151,50 +157,53 @@ const Visitors = () => {
                 </tr>
               </thead>
               <tbody>
-                {filteredData.slice(row[0], row[1]).sort((a,b)=> new Date(b.createdAt) - new Date(a.createdAt)).map((visitor, index) => (
-                  <tr key={index} className="border-b border-gray-700 hover:bg-gray-700">
-                    <td className="py-3 px-4 text-gray-100">{visitor.ip}</td>
-                    <td className="py-3 px-4 text-gray-100">{visitor.deviceType}</td>
-                    <td className="py-3 px-4 text-gray-100">{visitor.referrer || "Direct"}</td>
-                    <td className="py-3 px-4 text-gray-100">{visitor.pageVisited || "Unknown"}</td>
-                    <td className="py-3 px-4 text-gray-100">
-                      {new Date(visitor.createdAt).toLocaleString()}
-                    </td>
-                    <td className="py-3 px-4">
-                      <button
-                        onClick={() => openVisitorModal(visitor)}
-                        className="bg-green-600 text-white px-3 py-1 rounded-md text-sm hover:bg-green-700 transition-colors"
-                      >
-                        View Details
-                      </button>
-                    </td>
-                  </tr>
-                ))}
+                {filteredData
+                  .slice(row[0], row[1])
+                  .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+                  .map((visitor, index) => (
+                    <tr key={index} className="border-b border-gray-700 hover:bg-gray-700">
+                      <td className="py-3 px-4 text-gray-100">{visitor.ip}</td>
+                      <td className="py-3 px-4 text-gray-100">{visitor.deviceType}</td>
+                      <td className="py-3 px-4 text-gray-100">{visitor.referrer || "Direct"}</td>
+                      <td className="py-3 px-4 text-gray-100">{visitor.pageVisited || "Unknown"}</td>
+                      <td className="py-3 px-4 text-gray-100">
+                        {new Date(visitor.createdAt).toLocaleString()}
+                      </td>
+                      <td className="py-3 px-4">
+                        <button
+                          onClick={() => openVisitorModal(visitor)}
+                          className="bg-green-600 text-white px-3 py-1 rounded-md text-sm hover:bg-green-700 transition-colors"
+                        >
+                          View Details
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
             <div className="flex justify-center gap-4 mt-4">
-                <button onClick={()=> {
-                    if(row[0]===0){
-                        return;
-                    }
-                    else{
-                        row[0]-=20;
-                        row[1]-=20;
-                    }
-                    
-                }} className="bg-gray-700 text-white px-4 py-2 text-2xl border-gray-700 border rounded-md hover:bg-gray-800">←</button>
-                <button onClick={()=> {
-                    if(row[1]>=data.length){
-                        return;
-                    }
-                    else{
-                        row[0]+=20;
-                        row[1]+=20;
-                    }
-                    
-                }} className="bg-gray-700 text-white px-4 py-2 text-2xl border-gray-700 border rounded-md hover:bg-gray-800">→</button>
+              <button
+                onClick={handlePrevious}
+                disabled={row[0] === 0}
+                className={`bg-gray-700 text-white px-4 py-2 text-2xl border-gray-700 border rounded-md hover:bg-gray-800 ${
+                  row[0] === 0 ? "opacity-50 cursor-not-allowed" : ""
+                }`}
+              >
+                ←
+              </button>
+              <button
+                onClick={handleNext}
+                disabled={row[1] >= filteredData.length}
+                className={`bg-gray-700 text-white px-4 py-2 text-2xl border-gray-700 border rounded-md hover:bg-gray-800 ${
+                  row[1] >= filteredData.length ? "opacity-50 cursor-not-allowed" : ""
+                }`}
+              >
+                →
+              </button>
             </div>
-            <p className="text-center text-sm text-gray-500">Showing results {row[0]} - {row[1]}, of {filteredData.length} documents</p>
+            <p className="text-center text-sm text-gray-500">
+              Showing results {row[0] + 1} - {Math.min(row[1], filteredData.length)} of {filteredData.length} documents
+            </p>
           </div>
         ) : (
           <div className="text-center py-12">
@@ -203,7 +212,7 @@ const Visitors = () => {
         )}
       </div>
 
-      {/* Visitor Details Modal */}
+      {/* Visitor Details Modal (unchanged) */}
       {selectedVisitor && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-gray-800 border border-gray-700 rounded-lg p-6 w-full max-w-md">
@@ -227,7 +236,7 @@ const Visitors = () => {
         </div>
       )}
 
-      {/* Footer */}
+      {/* Footer (unchanged) */}
       {filteredData.length > 0 && (
         <div className="mt-6 text-center text-xs text-gray-500 max-w-4xl mx-auto">
           <p>Data updated: {new Date().toLocaleDateString()}</p>

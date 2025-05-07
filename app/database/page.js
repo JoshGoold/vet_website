@@ -231,7 +231,7 @@ const page = () => {
         <h2 className="flex items-center gap-3 text-lg font-semibold">
           <span>Available Names:</span>
           <span className="bg-red-600 px-4 py-1 rounded-full text-xl font-bold">
-            {totalMia || <Loader />}
+            {Number(totalMia) + 3 || 0}
           </span>
         </h2>
         <h2 className="flex items-center gap-3 text-lg font-semibold">

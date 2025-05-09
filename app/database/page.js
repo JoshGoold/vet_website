@@ -341,7 +341,7 @@ const page = () => {
                     setViewState("showData");
                   }}
                 >
-                  {city} - {groupedData[selectedProvince][city].length} People
+                  {city} - {groupedData[selectedProvince][city].length} {groupedData[selectedProvince][city].length === 1 ? "Person" : "People"}
                 </li>
               ))}
           </ul>

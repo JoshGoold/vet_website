@@ -403,13 +403,13 @@ const page = () => {
               .map((veteran, index) => (
                 <li
                   key={veteran._id}
-                  className={`${veteran.completed_story ? "bg-green-300 hover:bg-green-400" : "bg-gray-800 hover:bg-gray-700"} p-5 rounded-md shadow-md  transition-colors`}
-                >
+                  className={`${veteran.completed_story ? "bg-gray-500 hover:bg-gray-400" : "bg-gray-800 hover:bg-gray-700"} p-5 rounded-md shadow-md  transition-colors`}
+                > {veteran.completed_story && (<p className="bg-green-500 rounded my-2 text-white p-2 w-full"><strong>This Story Has Been Completed! | <Link className="underline text-blue-500 cursor-pointer" href={"/completed-stories"}>View</Link></strong></p>)}
                   <h2 className="text-xl font-bold underline">
                     {veteran.name.substring(0, veteran.name.length - 1).split(", ")[1]}{" "}
                     {veteran.name.substring(0, veteran.name.length - 1).split(", ")[0]}
                   </h2>
-                  {veteran.completed_story && (<p className="bg-green-500 text-white p-2 w-full"><strong>This Story Has Been Completed! | <Link className="underline text-purple-500 cursor-pointer" href={"/completed-stories"}>View</Link></strong></p>)}
+                 
                   <p><strong>From:</strong> {veteran.from}</p>
                   <p><strong>Death:</strong> {veteran.death}</p>
                   <p><strong>Squadron:</strong> {veteran.squadron}</p>

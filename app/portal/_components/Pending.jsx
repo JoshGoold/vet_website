@@ -307,7 +307,13 @@ const Pending = () => {
                   <button onClick={()=> setCatalog(prev=> !prev)} className="bg-blue-500 p-2 rounded">Search Catalog</button>
                   </>
                 ): (
+                  <>
                   <h1>{selectedVeteran.name}</h1>
+                  <button onClick={()=>{ 
+                    setCatalog(prev=> !prev)
+                    setSelectedVeteran(null)
+                  }} className="bg-blue-500 p-2 rounded">Change</button>
+                  </>
                 )}
                 
               </div>

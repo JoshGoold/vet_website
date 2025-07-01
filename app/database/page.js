@@ -14,6 +14,7 @@ import NewBrunswick from "@/assets/Flags/New Brunswick.png"
 import BritishColumbia from "@/assets/Flags/British Columbia.png"
 import Image from "next/image";
 import logVisit from "@/utils/logVisit";
+import Link from "next/link";
 
 const page = () => {
     const [data, setData] = useState([]);
@@ -402,12 +403,13 @@ const page = () => {
               .map((veteran, index) => (
                 <li
                   key={veteran._id}
-                  className="bg-gray-800 p-5 rounded-md shadow-md hover:bg-gray-700 transition-colors"
+                  className={`${veteran.completed_story ? "bg-green-300 hover:bg-green-400" : "bg-gray-800 hover:bg-gray-700"} p-5 rounded-md shadow-md  transition-colors`}
                 >
                   <h2 className="text-xl font-bold underline">
                     {veteran.name.substring(0, veteran.name.length - 1).split(", ")[1]}{" "}
                     {veteran.name.substring(0, veteran.name.length - 1).split(", ")[0]}
                   </h2>
+                  {veteran.completed_story && (<p className="bg-green-500 text-white p-2 w-full"><strong>This Story Has Been Completed! | <Link className="underline text-purple-500 cursor-pointer" href={"/completed-stories"}>View</Link></strong></p>)}
                   <p><strong>From:</strong> {veteran.from}</p>
                   <p><strong>Death:</strong> {veteran.death}</p>
                   <p><strong>Squadron:</strong> {veteran.squadron}</p>

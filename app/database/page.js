@@ -26,6 +26,7 @@ const page = () => {
     const [selectedCity, setSelectedCity] = useState(null);
     const [selectedVeteran, setSelectedVeteran] = useState({});
     const [groupedData, setGroupedData] = useState({});
+    const [completed, setCompleted] = useState(0)
     const [geoData, setGeoData] = useState([])
     const [searchQuery, setSearchQuery] = useState("")
     const [searchOption, setSearchOption] = useState("manual")
@@ -116,7 +117,11 @@ const page = () => {
             });
     
             const info = await selectedResponse.json();
-    
+
+            const comres = await fetch("https://veteran-api-for-kim.vercel.app/get-story", {method:"GET"})
+            const comret = await comres.json()
+            setCompleted(comret.Success ? comret.Stories.length : 0)
+
             if (info.Success) {
               setSelectedVets(info.Data);
             } else {

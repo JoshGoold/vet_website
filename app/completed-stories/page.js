@@ -161,7 +161,7 @@ const CompletedStories = () => {
                     <span className="font-bold text-lg">{region}</span>
                     <span
                       className={`px-3 py-1 rounded-full text-white font-semibold ${
-                        totals[region] < 5
+                        totals[region] === 0
                           ? "bg-gray-500"
                           : totals[region] < 10
                           ? "bg-blue-500"

@@ -7,6 +7,17 @@ import Image from "next/image";
 
 const Pending = () => {
   const [loading, setLoading] = useState(false);
+  const [results, setResults] = useState([])
+  const [selectedVeteran, setSelectedVeteran] = useState(null);
+  const [pagination, setPagination] = useState({
+    currentPage: 1,
+    totalPages: 0,
+    totalResults: 0,
+    resultsPerPage: 20,
+  });
+
+  const [catalog, setCatalog] = useState(false)
+  const [query, setQuery] = useState("")
   const [formData, setFormData] = useState({
     material: "",
     link: "",
@@ -73,8 +84,14 @@ const Pending = () => {
     data.append("link", formData.link);
     data.append("summary", formData.summary);
     data.append("img", formData.img);
+    if(formData.material === "Story" && selectedVeteran){
+      data.append("vet", selectedVeteran._id)
+    }
 
     try {
+      if(formData.material === "Story" && selectedVeteran === null){
+        return alert("Please select a veteran associated with the completed story.")
+      }
       // Replace with your API endpoint
       const response = await fetch("https://veteran-api-for-kim.vercel.app/upload-material", {
         method: "POST",
@@ -97,10 +114,149 @@ const Pending = () => {
     }
   };
 
+  async function searchVeteran(page = 1) {
+    if (!query) {
+      alert("Please enter a search query");
+      return;
+    }
+
+    try {
+      const response = await fetch("https://veteran-api-for-kim.vercel.app/search", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: query, page, limit: 20 }),
+      });
+      const data = await response.json();
+
+      if (!data.Success) {
+        alert(data.Message);
+        return;
+      }
+
+      setResults(data.Data);
+      setPagination(data.Pagination);
+    } catch (error) {
+      console.error("Search error:", error);
+      alert("Failed to fetch results. Please try again.");
+    }
+  }
+
+  const handlePageChange = (newPage) => {
+    if (newPage >= 1 && newPage <= pagination.totalPages) {
+      searchVeteran(newPage);
+    }
+  };
+
   if (loading) return <Loader />;
 
   return (
-    <div className="min-h-screen bg-gray-900 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gray-900 flex items-center justify-center p-4 relative">
+
+
+       {catalog && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 w-full max-w-2xl max-h-[80vh] overflow-y-auto">
+            {/* Close Button */}
+            <div className="flex justify-end">
+              <button
+                className="text-black hover:text-gray-700 text-2xl"
+                onClick={() => setCatalog(false)}
+              >
+                ×
+              </button>
+            </div>
+
+            {/* Search Input and Button */}
+            <div className="flex items-center gap-2 mb-4">
+              <input
+                type="text"
+                className="p-2 rounded border text-black flex-1"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Search Veteran Name"
+              />
+              <button
+                className="bg-blue-500 text-white rounded p-2 hover:bg-blue-600"
+                onClick={() => searchVeteran(1)}
+              >
+                Search
+              </button>
+            </div>
+
+            {/* Veteran Selection Dropdown */}
+            <div className="mb-4">
+              {results.length === 0 ? (
+                <p className="text-black">No results found.</p>
+              ) : (
+                <select
+                  className="w-full p-2 text-black border rounded"
+                  value={selectedVeteran?._id || ""}
+                  onChange={(e) => {
+                    const veteran = results.find((v) => v._id === e.target.value);
+                    setSelectedVeteran(veteran || null);
+                  }}
+                >
+                  <option className="text-black" value="">Select a Veteran</option>
+                  {results.map((veteran) => (
+                    <option className="text-black" key={veteran._id} value={veteran._id}>
+                      {veteran.name} ({veteran.from})
+                    </option>
+                  ))}
+                </select>
+              )}
+            </div>
+
+            {/* Selected Veteran Details */}
+            {selectedVeteran && (
+              <div className="text-black border p-4 rounded bg-gray-50 mb-4">
+                <h3 className="font-semibold text-lg mb-2">{selectedVeteran.name}</h3>
+                <p><strong>From:</strong> {selectedVeteran.from}</p>
+                <p><strong>Date of Death:</strong> {selectedVeteran.death}</p>
+                <p><strong>Squadron:</strong> {selectedVeteran.squadron}</p>
+                <p><strong>Inscribed:</strong> {selectedVeteran.inscribed}</p>
+                <p><strong>Grave:</strong> {selectedVeteran.grave}</p>
+                <p><strong>Taken:</strong> {selectedVeteran.taken ? "Yes" : "No"}</p>
+                <p><strong>Full Description:</strong> {selectedVeteran.full_description}</p>
+                <p className="bg-green-500 text-white p-3 mt-3">You have Selected {selectedVeteran.name}</p>
+              </div>
+            )}
+
+            {/* Pagination Controls */}
+            {pagination.totalPages > 1 && (
+              <div className="flex justify-between items-center">
+                <button
+                  className={`px-4 py-2 rounded ${
+                    pagination.currentPage === 1
+                      ? "bg-gray-300 cursor-not-allowed"
+                      : "bg-blue-500 text-white hover:bg-blue-600"
+                  }`}
+                  onClick={() => handlePageChange(pagination.currentPage - 1)}
+                  disabled={pagination.currentPage === 1}
+                >
+                  Previous
+                </button>
+                <span>
+                  Page {pagination.currentPage} of {pagination.totalPages} (
+                  {pagination.totalResults} results)
+                </span>
+                <button
+                  className={`px-4 py-2 rounded ${
+                    pagination.currentPage === pagination.totalPages
+                      ? "bg-gray-300 cursor-not-allowed"
+                      : "bg-blue-500 text-white hover:bg-blue-600"
+                  }`}
+                  onClick={() => handlePageChange(pagination.currentPage + 1)}
+                  disabled={pagination.currentPage === pagination.totalPages}
+                >
+                  Next
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+
       <div className="w-full max-w-md bg-gray-800 rounded-lg shadow-lg p-6">
         <div className="mb-6 text-center">
           <h1 className="text-3xl font-bold text-white flex items-center justify-center gap-2">
@@ -140,6 +296,23 @@ const Pending = () => {
             />
             {errors.link && <p className="text-red-500 text-sm mt-1">{errors.link}</p>}
           </div>
+
+          {/* Veteran Select */}
+          {formData.material === "Story" && (
+            <div className="p-2 bg-gray-700 border-gray-600 rounded">
+              <div className="flex justify-between items-center">
+                {selectedVeteran === null ? (
+                  <>
+                  <h1>Select a Veteran</h1>
+                  <button onClick={()=> setCatalog(prev=> !prev)} className="bg-blue-500 p-2 rounded">Search Catalog</button>
+                  </>
+                ): (
+                  <h1>{selectedVeteran.name}</h1>
+                )}
+                
+              </div>
+            </div>
+          )}
 
           {/* Summary */}
           <div>

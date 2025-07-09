@@ -67,8 +67,8 @@ const News = () => {
                     src={`data:image/jpeg;base64,${Buffer.from(item.img).toString("base64")}`}
                     alt={item.summary}
                     width={200}
-                    height={150}
-                    className="w-full md:w-48 h-36 object-cover rounded-md"
+                    height={200}
+                    className="w-full md:w-48 h-36 object-contain bg-white rounded-md"
                   />
                 )}
                 <div className="flex-1">

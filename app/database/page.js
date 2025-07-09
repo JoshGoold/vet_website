@@ -118,7 +118,7 @@ const page = () => {
     
             const info = await selectedResponse.json();
 
-            const comres = await fetch("https://veteran-api-for-kim.vercel.app/get-story", {method:"GET"})
+            const comres = await fetch("https://veteran-api-for-kim.vercel.app/get-story", {method:"GET",headers: { "Content-Type": "application/json" }})
             const comret = await comres.json()
             setCompleted(comret.Success ? comret.Stories.length : 0)
 
@@ -249,7 +249,7 @@ const page = () => {
         <h2 className="flex items-center gap-3 text-lg font-semibold">
           <span>Completed Stories:</span>
           <span className="bg-blue-600 px-4 py-1 rounded-full text-xl font-bold">
-            {0}
+            {completed || 0}
           </span>
         </h2>
       </div>

@@ -16,6 +16,7 @@ import Loader from "@/components/Loader";
 const CompletedStories = () => {
   const [stories, setStories] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [notClosed, setNotClosed] = useState(true);
   const [error, setError] = useState(null);
   const [groupedData, setGroupedData] = useState({});
   const [viewState, setViewState] = useState("listProvinces");
@@ -25,26 +26,26 @@ const CompletedStories = () => {
 
   const [totals, setTotals] = useState({
     "Prince Edward Island": 0,
-    "Alberta": 0,
-    "Newfoundland": 0,
+    Alberta: 0,
+    Newfoundland: 0,
     "Nova Scotia": 0,
-    "Manitoba": 0,
-    "Quebec": 0,
-    "Ontario": 0,
-    "Saskatchewan": 0,
+    Manitoba: 0,
+    Quebec: 0,
+    Ontario: 0,
+    Saskatchewan: 0,
     "New Brunswick": 0,
     "British Columbia": 0,
   });
 
   const flags = {
     "Prince Edward Island": PEI,
-    "Alberta": Alberta,
-    "Newfoundland": Newfoundland,
+    Alberta: Alberta,
+    Newfoundland: Newfoundland,
     "Nova Scotia": NovaScotia,
-    "Manitoba": Manitoba,
-    "Quebec": Quebec,
-    "Ontario": Ontario,
-    "Saskatchewan": Saskatchewan,
+    Manitoba: Manitoba,
+    Quebec: Quebec,
+    Ontario: Ontario,
+    Saskatchewan: Saskatchewan,
     "New Brunswick": NewBrunswick,
     "British Columbia": BritishColumbia,
   };
@@ -65,9 +66,12 @@ const CompletedStories = () => {
   useEffect(() => {
     const fetchStories = async () => {
       try {
-        const response = await fetch("https://veteran-api-for-kim.vercel.app/get-story", {
-          method: "GET",
-        });
+        const response = await fetch(
+          "https://veteran-api-for-kim.vercel.app/get-story",
+          {
+            method: "GET",
+          }
+        );
         const data = await response.json();
         if (data.Success) {
           setStories(data.Stories);
@@ -96,7 +100,10 @@ const CompletedStories = () => {
 
     stories.forEach((story) => {
       // Use veteran.from for location data
-      const parts = story.veteran?.from.split(",") || ["Unknown City", "Unknown"];
+      const parts = story.veteran?.from.split(",") || [
+        "Unknown City",
+        "Unknown",
+      ];
       const city = parts.length > 1 ? parts[0].trim() : "Unknown City";
       const region = parts[parts.length - 1].trim();
 
@@ -139,7 +146,71 @@ const CompletedStories = () => {
   return (
     <div className="min-h-screen bg-gray-900 p-6">
       <div className="max-w-4xl w-full mx-auto">
-        <h1 className="text-3xl font-bold text-blue-400 mb-6 text-center">Completed Stories</h1>
+        <h1 className="text-3xl font-bold text-blue-400 mb-6 text-center">
+          Completed Stories
+        </h1>
+
+        {/* <div className="mb-5">
+          {mostRecentStory && viewState === "listProvinces" && notClosed && (
+            <div
+              className={`bg-gray-800 relative rounded-lg shadow-lg p-4 hover:shadow-xl transition-shadow border-2 border-gray-500`}
+            >
+              <button
+                className={`font-thin absolute top-0 right-0 py-2 bg-blue-500 px-4 text-[20px] justify-end ${
+                  !notClosed && "hidden"
+                }`}
+                onClick={() => setNotClosed(false)}
+              >
+                X
+              </button>
+
+              <Image
+                src={`data:image/jpeg;base64,${Buffer.from(
+                  mostRecentStory.img
+                ).toString("base64")}`}
+                alt={mostRecentStory.summary}
+                width={300}
+                height={500}
+                className="w-full h-60 object-cover rounded-md mb-4"
+              />
+
+              <h2 className="text-xl font-semibold text-white mb-2">
+                {mostRecentStory.summary}
+              </h2>
+              <p className="text-gray-300 mb-2">
+                <strong>Veteran:</strong>{" "}
+                {
+                  mostRecentStory.veteran.name
+                    .substring(0, mostRecentStory.veteran.name.length - 1)
+                    .split(", ")[1]
+                }{" "}
+                {
+                  mostRecentStory.veteran.name
+                    .substring(0, mostRecentStory.veteran.name.length - 1)
+                    .split(", ")[0]
+                }
+              </p>
+              <p className="text-gray-300 mb-2">
+                <strong>Location:</strong> {mostRecentStory.veteran.from}
+              </p>
+              <a
+                href={mostRecentStory.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-500 hover:underline"
+              >
+                Read Story
+              </a>
+              <p className="text-gray-400 text-sm mt-2">
+                Published:{" "}
+                {new Date(mostRecentStory.createdAt).toLocaleDateString()}
+              </p>
+              <p className="text-blue-400 text-sm font-bold mt-2">
+                Most Recent Story
+              </p>
+            </div>
+          )}
+        </div> */}
 
         {viewState === "listProvinces" && (
           <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -151,9 +222,9 @@ const CompletedStories = () => {
                   title={`View ${region}`}
                   className="bg-gray-800 p-4 rounded-lg shadow-md hover:bg-gray-700 transform hover:scale-105 transition-all duration-300 cursor-pointer"
                   onClick={() => {
-                    if(totals[region] > 0){
-                    setSelectedProvince(region);
-                    setViewState("listCities");
+                    if (totals[region] > 0) {
+                      setSelectedProvince(region);
+                      setViewState("listCities");
                     }
                   }}
                 >
@@ -206,9 +277,9 @@ const CompletedStories = () => {
             <div className="flex flex-col sm:flex-row justify-between gap-4 mb-6">
               <button
                 onClick={() => {
-                  if(totals[selectedProvince] > 0){
-                  setViewState("listProvinces");
-                  setSearchQuery("");
+                  if (totals[selectedProvince] > 0) {
+                    setViewState("listProvinces");
+                    setSearchQuery("");
                   }
                 }}
                 className="border border-gray-600 text-gray-100 px-4 py-2 rounded-md hover:bg-gray-700 transition-colors"
@@ -238,7 +309,9 @@ const CompletedStories = () => {
                     }}
                   >
                     {city} - {groupedData[selectedProvince][city].length}{" "}
-                    {groupedData[selectedProvince][city].length === 1 ? "Story" : "Stories"}
+                    {groupedData[selectedProvince][city].length === 1
+                      ? "Story"
+                      : "Stories"}
                   </li>
                 ))}
             </ul>
@@ -294,13 +367,13 @@ const CompletedStories = () => {
                   >
                     {story.img && (
                       <Image
-                        src={`data:image/jpeg;base64,${Buffer.from(story.img).toString(
-                          "base64"
-                        )}`}
+                        src={`data:image/jpeg;base64,${Buffer.from(
+                          story.img
+                        ).toString("base64")}`}
                         alt={story.summary}
+                        height={400}
                         width={300}
-                        height={200}
-                        className="w-full h-40 object-cover rounded-md mb-4"
+                        className="w-full h-[300px] bg-white object-contain rounded-md mb-4"
                       />
                     )}
                     <h2 className="text-xl font-semibold text-white mb-2">
@@ -308,10 +381,16 @@ const CompletedStories = () => {
                     </h2>
                     <p className="text-gray-300 mb-2">
                       <strong>Veteran:</strong>{" "}
-                      {story.veteran.name.substring(0, story.veteran.name.length - 1).split(", ")[1]}{" "}
-                      {story.veteran.name
-                        .substring(0, story.veteran.name.length - 1)
-                        .split(", ")[0]}
+                      {
+                        story.veteran.name
+                          .substring(0, story.veteran.name.length - 1)
+                          .split(", ")[1]
+                      }{" "}
+                      {
+                        story.veteran.name
+                          .substring(0, story.veteran.name.length - 1)
+                          .split(", ")[0]
+                      }
                     </p>
                     <p className="text-gray-300 mb-2">
                       <strong>Location:</strong> {story.veteran.from}
@@ -325,7 +404,8 @@ const CompletedStories = () => {
                       Read Story
                     </a>
                     <p className="text-gray-400 text-sm mt-2">
-                      Published: {new Date(story.createdAt).toLocaleDateString()}
+                      Published:{" "}
+                      {new Date(story.createdAt).toLocaleDateString()}
                     </p>
                     {mostRecentStory?._id === story._id && (
                       <p className="text-blue-400 text-sm font-bold mt-2">

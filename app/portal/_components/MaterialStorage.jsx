@@ -133,7 +133,7 @@ const MaterialStorage = () => {
 
     try {
       const response = await fetch(
-        `${url}/delete-material?material=${viewState.slice(0, -1)}&id=${item.id}`,
+        `${url}/delete-material?material=${viewState.slice(0, -1)}&id=${item._id}`,
         {
           method: "DELETE",
           headers: { "Content-Type": "application/json" },

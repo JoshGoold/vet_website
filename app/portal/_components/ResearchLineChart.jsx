@@ -16,8 +16,8 @@ const ResearchLineChart = ({ selectedVets }) => {
   // Aggregate selectedVets by date
   const chartData = Object.entries(
     (selectedVets || []).reduce((acc, vet) => {
-      const date = vet.selectedDate
-        ? new Date(vet.selectedDate).toLocaleDateString()
+      const date = vet.createdAt
+        ? new Date(vet.createdAt).toLocaleDateString()
         : "Unknown";
       acc[date] = (acc[date] || 0) + 1;
       return acc;
@@ -30,7 +30,7 @@ const ResearchLineChart = ({ selectedVets }) => {
         <CardTitle>Research Progress Over Time</CardTitle>
         <CardDescription>Selected Veterans by Date</CardDescription>
       </CardHeader>
-      <CardContent className="flex-1 pb-0">
+      <CardContent className="flex-1 pb-0 scale-90 -ml-5">
         <ChartContainer config={{ count: { label: "Selected" } }} className="h-[300px]">
           <LineChart data={chartData}>
             <XAxis dataKey="date" />

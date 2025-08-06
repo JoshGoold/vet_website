@@ -28,7 +28,7 @@ const ProvinceCityHeatmap = ({ groupedData }) => {
         <CardTitle>Province-City Density</CardTitle>
         <CardDescription>Top 20 Veteran Counts by Location</CardDescription>
       </CardHeader>
-      <CardContent className="flex-1 pb-0">
+      <CardContent className="flex-1  scale-90 pb-0">
         <ChartContainer config={{ count: { label: "Veterans" } }} className="h-[300px]">
           <BarChart data={chartData}>
             <XAxis dataKey="name" angle={-45} textAnchor="end" height={60} />

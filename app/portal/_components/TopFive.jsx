@@ -29,7 +29,7 @@ const CityStackedBarChart = ({ groupedData }) => {
         <CardTitle>City Breakdown by Province</CardTitle>
         <CardDescription>Top 5 Cities per Province</CardDescription>
       </CardHeader>
-      <CardContent className="flex-1 pb-0">
+      <CardContent className="flex-1  scale-90 pb-0">
         <ChartContainer config={{ count: { label: "Veterans" } }} className="h-[300px]">
           <BarChart data={chartData}>
             <XAxis dataKey="city" angle={-45} textAnchor="end" height={60} />

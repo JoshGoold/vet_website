@@ -17,6 +17,8 @@ const PortalContent = () => {
   const [isValid, setIsValid] = useState(false);
   const [navState, setNavState] = useState("dashboard");
   const [selectedVets, setSelectedVets] = useState([]);
+  const [researchTotal, setResearchTotal] = useState(0)
+  const [completed, setCompleted] = useState(0)
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [groupedData, setGroupedData] = useState({});
@@ -64,7 +66,16 @@ const PortalContent = () => {
           const info = await selectedResponse.json();
 
           if (info.Success) {
+            const unique = new Set()
+            for(const item of info.Data){
+              if(unique.has(item.name)) continue
+              unique.add(item.name)
+            }
+            setResearchTotal(unique.size)
             setSelectedVets(info.Data);
+            const comres = await fetch("https://veteran-api-for-kim.vercel.app/get-story", {method:"GET",headers: { "Content-Type": "application/json" }})
+            const comret = await comres.json()
+            setCompleted(comret.Success ? comret.Stories.length : 0)
           } else {
             alert(info.Message);
           }
@@ -147,7 +158,7 @@ const PortalContent = () => {
           >
             Active Participants
             <span className="absolute top-2 right-2 bg-red-500 text-xs px-2 py-1 rounded-full">
-              {selectedVets.length || 0}
+              {researchTotal || 0}
             </span>
           </li>
           <li
@@ -173,7 +184,7 @@ const PortalContent = () => {
       {/* Main Content */}
       <div className="flex-1 p-4 sm:p-6 overflow-auto">
         {navState === "dashboard" && (
-          <Dashboard groupedData={groupedData} data={data} totals={totals} selectedVets={selectedVets} />
+          <Dashboard groupedData={groupedData} data={data} totals={totals} selectedVets={selectedVets} completed={completed}/>
         )}
         {navState === "active research" && <Research />}
         {navState === "active participants" && <Participants />}

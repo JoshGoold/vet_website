@@ -13,9 +13,9 @@ import { ChartContainer } from "@/components/ui/chart";
 
 const CumulativeAreaChart = ({ selectedVets }) => {
   const chartData = (selectedVets || [])
-    .sort((a, b) => new Date(a.selectedDate) - new Date(b.selectedDate))
+    .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
     .map((vet, idx) => ({
-      date: vet.selectedDate ? new Date(vet.selectedDate).toLocaleDateString() : "Unknown",
+      date: vet.createdAt ? new Date(vet.createdAt).toLocaleDateString() : "Unknown",
       count: idx + 1,
     }));
 
@@ -25,7 +25,7 @@ const CumulativeAreaChart = ({ selectedVets }) => {
         <CardTitle>Cumulative Research Progress</CardTitle>
         <CardDescription>Total Selected Over Time</CardDescription>
       </CardHeader>
-      <CardContent className="flex-1 pb-0">
+      <CardContent className="flex-1  scale-90 pb-0">
         <ChartContainer config={{ count: { label: "Cumulative" } }} className="h-[300px]">
           <AreaChart data={chartData}>
             <XAxis dataKey="date" />

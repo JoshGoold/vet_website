@@ -21,7 +21,14 @@ const Participants = () => {
         const data = await response.json();
 
         if (data.Success) {
-          setSelections(data.Data);
+          const map = new Map()
+          const keep = []
+          for(const item of data.Data){
+            if(map.has(item.name)) continue
+            keep.push(item)
+            map.set(item.name, item)
+          }
+          setSelections(keep);
         } else {
           alert(data.Message);
         }

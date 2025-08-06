@@ -21,7 +21,7 @@ import ResearchLineChart from "./ResearchLineChart";
 import ProvinceCityHeatmap from "./HeatMap";
 import CumulativeAreaChart from "./CulmativeChart";
 
-const Dashboard = ({ data, totals, groupedData, selectedVets }) => {
+const Dashboard = ({ data, totals, groupedData, selectedVets, completed }) => {
   const safeTotals = totals || {
     "Prince Edward Island": 0,
     "Alberta": 0,
@@ -105,7 +105,7 @@ const Dashboard = ({ data, totals, groupedData, selectedVets }) => {
             In Progress: <span className="text-blue-400">{selectedVets ? selectedVets.length.toLocaleString() : 0}</span>
           </span>
           <span className="text-lg font-semibold">
-            Completed: <span className="text-yellow-400">0</span>
+            Completed: <span className="text-yellow-400">{completed || 0}</span>
           </span>
         </div>
       </div>

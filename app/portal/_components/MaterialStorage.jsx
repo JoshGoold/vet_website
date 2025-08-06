@@ -332,7 +332,7 @@ const MaterialStorage = () => {
                 onClick={() => setViewState("Stories")}
                 className="px-12 cursor-pointer hover:scale-105 hover:bg-neutral-900 duration-300 py-8 shadow-md bg-neutral-800 relative text-white grid place-items-center"
               >
-                <div className="absolute top-0 bg-white text-black px-2 rounded-br-sm font-bold left-0">
+                <div className="absolute top-0 bg-red-500 text-white px-2 rounded-br-sm font-bold left-0">
                   {material.Stories.length}
                 </div>
                 <b>Stories</b>
@@ -344,7 +344,7 @@ const MaterialStorage = () => {
                 onClick={() => setViewState("News")}
                 className="px-12 cursor-pointer hover:scale-105 hover:bg-neutral-900 duration-300 py-8 shadow-md bg-neutral-800 text-white grid place-items-center relative"
               >
-                <div className="absolute top-0 bg-white text-black px-2 rounded-br-sm font-bold left-0">
+                <div className="absolute top-0 bg-red-500 text-white px-2 rounded-br-sm font-bold left-0">
                   {material.News.length}
                 </div>
                 <b>News</b>
@@ -356,7 +356,7 @@ const MaterialStorage = () => {
                 onClick={() => setViewState("Lessons")}
                 className="px-12 cursor-pointer hover:scale-105 hover:bg-neutral-900 duration-300 py-8 shadow-md bg-neutral-800 text-white grid place-items-center relative"
               >
-                <div className="absolute top-0 bg-white text-black px-2 rounded-br-sm font-bold left-0">
+                <div className="absolute top-0 bg-red-500 text-white px-2 rounded-br-sm font-bold left-0">
                   {material.Lessons.length}
                 </div>
                 <b>Lessons</b>
@@ -372,7 +372,7 @@ const MaterialStorage = () => {
           <table className="w-full mt-10">
             <thead>
               <tr className="bg-neutral-800">
-                <th className="text-left p-4 text-white">Description</th>
+                <th className="text-left p-4 text-white">{viewState}</th>
                 <th className="text-left p-4 bg-neutral-700 text-white">Manage</th>
               </tr>
             </thead>

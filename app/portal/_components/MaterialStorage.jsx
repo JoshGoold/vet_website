@@ -197,7 +197,7 @@ const MaterialStorage = () => {
 
     return (
       <div className="container mx-auto p-4">
-        <h2 className="text-2xl font-bold mb-4">Edit {viewState.slice(0, -1)}</h2>
+        <h2 className="text-2xl font-bold mb-4">Edit the Document</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label htmlFor="summary" className="block text-white mb-1">

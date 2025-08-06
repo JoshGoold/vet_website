@@ -9,6 +9,7 @@ import Pending from "./_components/Pending";
 import Participants from "./_components/Participants";
 import Link from "next/link";
 import Visitors from "./_components/Visitors";
+import MaterialStorage from "./_components/MaterialStorage";
 
 const PortalContent = () => {
   const searchParams = useSearchParams();
@@ -156,6 +157,13 @@ const PortalContent = () => {
             Upload Material
             
           </li>
+           <li
+            onClick={() => setNavState("manage")}
+            className={`p-4 hover:bg-blue-800 cursor-pointer relative ${navState === "manage" ? "bg-blue-800" : ""}`}
+          >
+            Manage Material
+            
+          </li>
           <li className="p-4 hover:bg-blue-800 cursor-pointer">
             <Link href="/">Exit Portal</Link>
           </li>
@@ -171,6 +179,7 @@ const PortalContent = () => {
         {navState === "active participants" && <Participants />}
         {navState === "pending submissions" && <Pending  />}
         {navState === "visitors" && <Visitors/>}
+        {navState === "manage" && <MaterialStorage/>}
       </div>
     </div>
   );

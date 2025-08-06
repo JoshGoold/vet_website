@@ -253,9 +253,7 @@ const MaterialStorage = () => {
                 id="file-upload"
               />
               <label htmlFor="file-upload" className="cursor-pointer">
-                {formData.img ? (
-                  <p className="text-white">Selected: {formData.img.name}</p>
-                ) : imageDisplay ? (
+                { imageDisplay && (
                   <>
                     <p className="text-white mb-2">Current image:</p>
                     <img
@@ -263,12 +261,12 @@ const MaterialStorage = () => {
                       alt="Current material"
                       className="max-w-[200px] mx-auto rounded"
                     />
-                  </>
-                ) : (
+
                   <p className="text-gray-400">
                     Drag and drop an image here or{" "}
                     <span className="text-blue-500 hover:underline">click to upload</span>
                   </p>
+                  </>
                 )}
               </label>
             </div>

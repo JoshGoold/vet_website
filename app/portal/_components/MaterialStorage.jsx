@@ -9,10 +9,6 @@ const MaterialStorage = () => {
   const [editInterface, setEditInterface] = useState("hidden");
   const [viewState, setViewState] = useState("");
   const [material, setMaterial] = useState({});
-  const [formData, setFormData] = useState({ summary: "", link: "", img: null });
-  const [errors, setErrors] = useState({ summary: "", link: "", img: "" });
-  const [dragActive, setDragActive] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
   const url = "https://veteran-api-for-kim.vercel.app";
   const routeToValue = {
     "get-news": "News",
@@ -49,83 +45,6 @@ const MaterialStorage = () => {
     }
   };
 
-  // Handle input changes
-  const handleChange = (e) => {
-    const { name, value, files } = e.target;
-    if (name === "img") {
-      setFormData((prev) => ({ ...prev, img: files[0] }));
-    } else {
-      setFormData((prev) => ({ ...prev, [name]: value }));
-    }
-    if (errors[name]) {
-      setErrors((prev) => ({ ...prev, [name]: "" }));
-    }
-  };
-
-  // Handle drag and drop
-  const handleDrag = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (e.type === "dragenter" || e.type === "dragover") {
-      setDragActive(true);
-    } else if (e.type === "dragleave") {
-      setDragActive(false);
-    }
-  };
-
-  const handleDrop = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setDragActive(false);
-    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      setFormData((prev) => ({ ...prev, img: e.dataTransfer.files[0] }));
-      setErrors((prev) => ({ ...prev, img: "" }));
-    }
-  };
-
-  // Handle form submission
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const newErrors = { summary: "", link: "", img: "" };
-    if (!formData.summary) newErrors.summary = "Description is required";
-    if (!formData.link) newErrors.link = "Link is required";
-    if (Object.values(newErrors).some((error) => error)) {
-      setErrors(newErrors);
-      return;
-    }
-
-    setSubmitting(true);
-    const data = new FormData();
-    data.append("material", viewState.slice(0, -1)); // e.g., "Stories" -> "Story"
-    data.append("summary", formData.summary);
-    data.append("link", formData.link);
-    data.append("id", selectedItem.id);
-    if (formData.img) data.append("img", formData.img);
-
-    try {
-      const response = await fetch(`${url}/edit-material`, {
-        method: "PUT",
-        body: data,
-      });
-      const result = await response.json();
-      if (!result.Success) {
-        alert(result.Message);
-        setSubmitting(false);
-        return;
-      }
-      alert("Material updated successfully!");
-      setFormData({ summary: "", link: "", img: null });
-      setSelectedItem(null);
-      setEditInterface("hidden");
-      await getMaterial(); // Refresh material list
-    } catch (error) {
-      console.error("Error updating material:", error);
-      alert("Failed to update material. Please try again.");
-    } finally {
-      setSubmitting(false);
-    }
-  };
-
   // Handle delete
   const handleDelete = async (item, route) => {
     const confirmDeletion = confirm("Are you sure you want to delete this item?");
@@ -133,7 +52,7 @@ const MaterialStorage = () => {
 
     try {
       const response = await fetch(
-        `${url}/delete-material?material=${viewState.slice(0, -1)}&id=${item._id}`,
+        `${url}/delete-material?material=${viewState.slice(0, -1)}&id=${item.id}`,
         {
           method: "DELETE",
           headers: { "Content-Type": "application/json" },
@@ -145,23 +64,12 @@ const MaterialStorage = () => {
         return;
       }
       alert("Material deleted successfully!");
-      await getMaterial(); // Refresh material list
+      await getMaterial();
     } catch (error) {
       console.error("Error deleting material:", error);
       alert("Failed to delete material. Please try again.");
     }
   };
-
-  // Initialize formData when selecting an item
-  useEffect(() => {
-    if (selectedItem) {
-      setFormData({
-        summary: selectedItem.summary || "",
-        link: selectedItem.link || "",
-        img: null,
-      });
-    }
-  }, [selectedItem]);
 
   // Fetch materials on mount
   useEffect(() => {
@@ -175,140 +83,238 @@ const MaterialStorage = () => {
     }
   }, [material]);
 
-const ManageMenu = ({ selectedItem }) => {
-  // Convert buffer to base64 if img is an object with data
-  const getImageDisplay = () => {
-    if (formData.img) {
-      return formData.img.name; // File object from input
-    }
-    if (selectedItem.img) {
-      if (typeof selectedItem.img === "string") {
-        return selectedItem.img; // Filename or URL
+  // ManageMenu component
+  const ManageMenu = ({ selectedItem, onSubmit, onCancel }) => {
+    const [formData, setFormData] = useState({
+      summary: selectedItem?.summary || "",
+      link: selectedItem?.link || "",
+      img: null,
+    });
+    const [errors, setErrors] = useState({ summary: "", link: "", img: "" });
+    const [dragActive, setDragActive] = useState(false);
+    const [submitting, setSubmitting] = useState(false);
+
+    // Update formData when selectedItem changes
+    useEffect(() => {
+      setFormData({
+        summary: selectedItem?.summary || "",
+        link: selectedItem?.link || "",
+        img: null,
+      });
+      setErrors({ summary: "", link: "", img: "" });
+    }, [selectedItem]);
+
+    const handleChange = (e) => {
+      const { name, value, files } = e.target;
+      setFormData((prev) => ({
+        ...prev,
+        [name]: files ? files[0] : value,
+      }));
+      if (errors[name]) {
+        setErrors((prev) => ({ ...prev, [name]: "" }));
       }
-      if (selectedItem.img.data && Array.isArray(selectedItem.img.data)) {
-        // Convert buffer array to base64
-        const base64String = btoa(
-          selectedItem.img.data.reduce((data, byte) => data + String.fromCharCode(byte), "")
-        );
-        return `data:${selectedItem.img.type || "image/jpeg"};base64,${base64String}`;
+    };
+
+    const handleDrag = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (e.type === "dragenter" || e.type === "dragover") {
+        setDragActive(true);
+      } else if (e.type === "dragleave") {
+        setDragActive(false);
       }
-    }
-    return null;
+    };
+
+    const handleDrop = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      setDragActive(false);
+      if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+        setFormData((prev) => ({ ...prev, img: e.dataTransfer.files[0] }));
+        setErrors((prev) => ({ ...prev, img: "" }));
+      }
+    };
+
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      const newErrors = { summary: "", link: "", img: "" };
+      if (!formData.summary) newErrors.summary = "Description is required";
+      if (!formData.link) newErrors.link = "Link is required";
+      if (Object.values(newErrors).some((error) => error)) {
+        setErrors(newErrors);
+        return;
+      }
+
+      setSubmitting(true);
+      const data = new FormData();
+      data.append("material", viewState.slice(0, -1));
+      data.append("summary", formData.summary);
+      data.append("link", formData.link);
+      data.append("id", selectedItem.id);
+      if (formData.img) data.append("img", formData.img);
+
+      try {
+        const response = await fetch(`${url}/edit-material`, {
+          method: "PUT",
+          body: data,
+        });
+        const result = await response.json();
+        if (!result.Success) {
+          alert(result.Message);
+          setSubmitting(false);
+          return;
+        }
+        alert("Material updated successfully!");
+        setFormData({ summary: "", link: "", img: null });
+        setErrors({ summary: "", link: "", img: "" });
+        onSubmit(); // Trigger parent refresh
+      } catch (error) {
+        console.error("Error updating material:", error);
+        alert("Failed to update material. Please try again.");
+        setSubmitting(false);
+      }
+    };
+
+    const getImageDisplay = () => {
+      if (formData.img) {
+        return formData.img.name;
+      }
+      if (selectedItem.img) {
+        if (typeof selectedItem.img === "string") {
+          return selectedItem.img;
+        }
+        if (selectedItem.img.data && Array.isArray(selectedItem.img.data)) {
+          const base64String = btoa(
+            selectedItem.img.data.reduce((data, byte) => data + String.fromCharCode(byte), "")
+          );
+          return `data:${selectedItem.img.type || "image/jpeg"};base64,${base64String}`;
+        }
+      }
+      return null;
+    };
+
+    const imageDisplay = getImageDisplay();
+
+    return (
+      <div className="container mx-auto p-4">
+        <h2 className="text-2xl font-bold mb-4">Edit {viewState.slice(0, -1)}</h2>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label htmlFor="summary" className="block text-white mb-1">
+              Description
+            </label>
+            <input
+              id="summary"
+              name="summary"
+              type="text"
+              value={formData.summary}
+              onChange={handleChange}
+              className="w-full p-2 rounded bg-neutral-700 text-white border border-neutral-600 focus:outline-none focus:border-blue-500"
+              placeholder="Enter description"
+            />
+            {errors.summary && (
+              <p className="text-red-500 text-sm mt-1">{errors.summary}</p>
+            )}
+          </div>
+          <div>
+            <label htmlFor="link" className="block text-white mb-1">
+              Link
+            </label>
+            <input
+              id="link"
+              name="link"
+              type="text"
+              value={formData.link}
+              onChange={handleChange}
+              className="w-full p-2 rounded bg-neutral-700 text-white border border-neutral-600 focus:outline-none focus:border-blue-500"
+              placeholder="Enter link"
+            />
+            {errors.link && (
+              <p className="text-red-500 text-sm mt-1">{errors.link}</p>
+            )}
+          </div>
+          <div>
+            <label className="block text-white mb-1">Image Upload</label>
+            <div
+              onDragEnter={handleDrag}
+              onDragOver={handleDrag}
+              onDragLeave={handleDrag}
+              onDrop={handleDrop}
+              className={`w-full p-4 border-2 border-dashed rounded-lg text-center ${
+                dragActive ? "border-blue-500 bg-blue-500/10" : "border-gray-600"
+              }`}
+            >
+              <input
+                type="file"
+                name="img"
+                onChange={handleChange}
+                accept="image/*"
+                className="hidden"
+                id="file-upload"
+              />
+              <label htmlFor="file-upload" className="cursor-pointer">
+                {formData.img ? (
+                  <p className="text-white">Selected: {formData.img.name}</p>
+                ) : imageDisplay ? (
+                  <>
+                    <p className="text-white mb-2">Current image:</p>
+                    <img
+                      src={imageDisplay}
+                      alt="Current material"
+                      className="max-w-[200px] mx-auto rounded"
+                    />
+                  </>
+                ) : (
+                  <p className="text-gray-400">
+                    Drag and drop an image here or{" "}
+                    <span className="text-blue-500 hover:underline">click to upload</span>
+                  </p>
+                )}
+              </label>
+            </div>
+            {errors.img && (
+              <p className="text-red-500 text-sm mt-1">{errors.img}</p>
+            )}
+          </div>
+          <div className="flex gap-4">
+            <button
+              type="submit"
+              disabled={submitting}
+              className={`px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 ${
+                submitting ? "opacity-50 cursor-not-allowed" : ""
+              }`}
+            >
+              {submitting ? "Saving..." : "Save"}
+            </button>
+            <button
+              type="button"
+              onClick={onCancel}
+              className="px-4 py-2 bg-neutral-600 text-white rounded hover:bg-neutral-700"
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+    );
   };
 
-  const imageDisplay = getImageDisplay();
-
-  return (
-    <div className="container mx-auto p-4">
-      <h2 className="text-2xl font-bold mb-4">Edit {viewState.slice(0, -1)}</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label htmlFor="summary" className="block text-white mb-1">
-            Description
-          </label>
-          <input
-            id="summary"
-            name="summary"
-            type="text"
-            value={formData.summary}
-            onChange={handleChange}
-            className="w-full p-2 rounded bg-neutral-700 text-white border border-neutral-600 focus:outline-none focus:border-blue-500"
-            placeholder="Enter description"
-          />
-          {errors.summary && (
-            <p className="text-red-500 text-sm mt-1">{errors.summary}</p>
-          )}
-        </div>
-        <div>
-          <label htmlFor="link" className="block text-white mb-1">
-            Link
-          </label>
-          <input
-            id="link"
-            name="link"
-            type="text"
-            value={formData.link}
-            onChange={handleChange}
-            className="w-full p-2 rounded bg-neutral-700 text-white border border-neutral-600 focus:outline-none focus:border-blue-500"
-            placeholder="Enter link"
-          />
-          {errors.link && (
-            <p className="text-red-500 text-sm mt-1">{errors.link}</p>
-          )}
-        </div>
-        <div>
-          <label className="block text-white mb-1">Image Upload</label>
-          <div
-            onDragEnter={handleDrag}
-            onDragOver={handleDrag}
-            onDragLeave={handleDrag}
-            onDrop={handleDrop}
-            className={`w-full p-4 border-2 border-dashed rounded-lg text-center ${
-              dragActive ? "border-blue-500 bg-blue-500/10" : "border-gray-600"
-            }`}
-          >
-            <input
-              type="file"
-              name="img"
-              onChange={handleChange}
-              accept="image/*"
-              className="hidden"
-              id="file-upload"
-            />
-            <label htmlFor="file-upload" className="cursor-pointer">
-              {formData.img ? (
-                <p className="text-white">Selected: {formData.img.name}</p>
-              ) : imageDisplay ? (
-                <>
-                  <p className="text-white mb-2">Current image:</p>
-                  <img
-                    src={imageDisplay}
-                    alt="Current material"
-                    className="max-w-[200px] mx-auto rounded"
-                  />
-                </>
-              ) : (
-                <p className="text-gray-400">
-                  Drag and drop an image here or{" "}
-                  <span className="text-blue-500 hover:underline">click to upload</span>
-                </p>
-              )}
-            </label>
-          </div>
-          {errors.img && (
-            <p className="text-red-500 text-sm mt-1">{errors.img}</p>
-          )}
-        </div>
-        <div className="flex gap-4">
-          <button
-            type="submit"
-            disabled={submitting}
-            className={`px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 ${
-              submitting ? "opacity-50 cursor-not-allowed" : ""
-            }`}
-          >
-            {submitting ? "Saving..." : "Save"}
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              setEditInterface("hidden");
-              setSelectedItem(null);
-              setFormData({ summary: "", link: "", img: null });
-              setErrors({ summary: "", link: "", img: "" });
-            }}
-            className="px-4 py-2 bg-neutral-600 text-white rounded hover:bg-neutral-700"
-          >
-            Cancel
-          </button>
-        </div>
-      </form>
-    </div>
-  );
-};
-
   if (loading) return <Loader />;
-  if (editInterface === "visible") return <ManageMenu selectedItem={selectedItem} />;
+  if (editInterface === "visible")
+    return (
+      <ManageMenu
+        selectedItem={selectedItem}
+        onSubmit={() => {
+          setEditInterface("hidden");
+          setSelectedItem(null);
+          getMaterial();
+        }}
+        onCancel={() => {
+          setEditInterface("hidden");
+          setSelectedItem(null);
+        }}
+      />
+    );
 
   return (
     <div className="py-10">

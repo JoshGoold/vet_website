@@ -48,7 +48,7 @@ const page = () => {
               </p>
               <p className="lg:pb-8 pb-3">
               <b className="text-xl">The Database Content:</b><br/> The names in this database come from
-              the <Link  className="underline italic text-blue-300 hover:text-blue-500" href={"https://www.rcafassociation.ca/heritage/history/fallen-aviators/rcaf-casualties-second-world-war/"}>RCAF Causalities-Second World War webpage</Link>. We created a
+              the <Link  className="underline italic text-blue-300 hover:text-blue-500" href={"https://www.rcafassociation.ca/heritage/history/fallen-aviators/rcaf-casualties-second-world-war/"}>RCAF Casualities-Second World War webpage</Link>. We created a
               computer program to find those who have no known grave and organized
               their names by province and hometown. This work led to the
               identification of 3,749 missing aircrew personnel with no known grave, whose names are
@@ -103,7 +103,7 @@ const page = () => {
                 Why does the database focus on the WWII Canadian MIA Aircrew?
               </b>
               <p className=" pt-3">
-                Almost all Army fatalities have known graves, and the portion of
+                Almost all army fatalities have known graves, and the portion of
                 naval losses at sea are commemorated on memorials, and their remains
                 are not recoverable. The approximately 3,000+ aircrew with no
                 known graves are commemorated as having no known grave (Library
@@ -119,7 +119,7 @@ const page = () => {
                 person who died while serving in the Canadian military and has no
                 known or maintainable grave is officially referred to as an
                 “unaccounted-for military fatality.” Library and Archives Canada
-                uses the term “missing inaction” (MIA) to describe military
+                uses the term “missing in action” (MIA) to describe military
                 personnel whose whereabouts and status remain unknown following
                 an operation. On this site, the 3,749 individuals are listed as
                 missing in action or MIA. These individuals died while serving or
